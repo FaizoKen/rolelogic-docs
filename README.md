@@ -1,4 +1,4 @@
-# RoleLogic Community Guide
+# RoleLogic Documentation
 
 A community-driven documentation and guide for the RoleLogic App. Anyone can share or contribute to this guide!
 
