@@ -1,0 +1,925 @@
+# RoleLogic Complete Documentation
+
+> RoleLogic is a free Discord bot for automatic role management using IF-THEN rules. No coding required.
+
+This file contains the complete RoleLogic documentation optimized for LLM consumption and RAG systems.
+
+---
+
+# SECTION 1: INTRODUCTION
+
+## What is RoleLogic?
+
+RoleLogic is a Discord bot that automatically manages roles for your server members. You create simple rules, and RoleLogic handles role assignments 24/7.
+
+### How It Works
+
+RoleLogic uses IF-THEN rules to automate role changes:
+- IF a member has certain roles...
+- THEN automatically add or remove other roles
+
+Example: "If someone has the Server Booster role, give them VIP."
+
+That's it. No coding, no complex setup—just simple rules that run automatically.
+
+### Key Features
+
+| Feature | Description |
+|---------|-------------|
+| Visual Rule Builder | Create rules by clicking—no coding needed |
+| Real-Time Processing | Role changes happen within seconds |
+| Testing Sandbox | Test rules safely before going live |
+| Cross-Server Support | Manage roles across multiple servers (up to 5 linked) |
+| Activity Logging | Track all configuration changes with full audit trail |
+| Webhook Notifications | Get notified when roles change |
+| Multi-Language | 7 languages: English, Arabic, German, Spanish, French, Malay, Portuguese (Brazilian) |
+
+### Free Plan Includes
+
+- 2 rules per server — enough for most basic setups
+- All features unlocked — no feature restrictions
+- 5 cross-server links — connect multiple servers
+- Testing sandbox — test before going live
+- Full activity logging — track all changes
+
+### Common Use Cases
+
+| Use Case | Example Rule |
+|----------|--------------|
+| Verification cleanup | If Verified → remove Unverified |
+| Booster rewards | If Server Booster → add VIP |
+| Tier upgrades | If Gold → remove Silver, Bronze |
+| Staff management | If Moderator → add Staff Access |
+| Access control | If Muted → remove General Access |
+
+---
+
+# SECTION 2: QUICK START GUIDE
+
+## Setup in 5 Minutes
+
+### Before You Start
+
+You'll need:
+- Administrator permission on your Discord server (or "Manage Roles" at minimum)
+- A web browser
+
+### Step 1: Invite RoleLogic
+
+1. Visit the RoleLogic website
+2. Click "Get Started Free" or "Add to Discord"
+3. Select your server from the dropdown
+4. Click "Authorize"
+
+RoleLogic only needs the "Manage Roles" permission. It cannot read messages or access any private information.
+
+### Step 2: Open the Dashboard
+
+1. Go to the RoleLogic Dashboard
+2. Click "Login with Discord"
+3. Find your server and click "Manage Server"
+
+Don't see your server? Make sure you have Administrator permission and RoleLogic is invited.
+
+### Step 3: Position the Bot's Role
+
+This is important! Discord only lets bots manage roles below their own position.
+
+1. In Discord, go to Server Settings → Roles
+2. Find the "RoleLogic" role
+3. Drag it above all roles you want RoleLogic to manage
+4. Save
+
+Example position:
+```
+Admin
+Moderator
+RoleLogic ← Put it here
+VIP
+Member
+Unverified
+```
+
+### Step 4: Create Your First Rule
+
+Let's create a simple rule: remove "Unverified" when someone gets "Member".
+
+1. In the dashboard, click "Add New Rule"
+2. Set the Condition (IF): Select "Has Some Roles" → Choose "Member"
+3. Set the Action (THEN): Select "Remove Roles" → Choose "Unverified"
+4. Click "Save Changes"
+
+Your rule activates within 1 hour. Want it immediately? Click the Play button to activate right away.
+
+### Step 5: Test Your Rule
+
+Before relying on it, test in the sandbox:
+1. Click the "Test" tab
+2. Select roles to simulate (e.g., Member + Unverified)
+3. Click "Run Test"
+4. See what would happen
+
+---
+
+# SECTION 3: CORE CONCEPTS
+
+## Rules
+
+A rule is an automated instruction that tells RoleLogic what to do when certain conditions are met.
+
+### Parts of a Rule
+
+1. **Condition (IF)**: Defines which members the rule applies to
+   - Condition type: How to check roles (has some, has all, lacks some, etc.)
+   - Roles to check: Which roles to look for
+   - Threshold: For counting conditions (at least 3, exactly 2, etc.)
+
+2. **Action (THEN)**: Defines what happens when conditions are met
+   - Add roles: Give members one or more roles
+   - Remove roles: Take away one or more roles
+
+3. **Priority**: Determines the order rules run (0 runs first, then 1, then 2...)
+
+4. **Status**: Rules can be Enabled, Disabled, Pending, or Stopped
+
+### Rule Processing
+
+Rules evaluate when:
+- A member joins or leaves
+- You or a moderator changes roles
+- Another bot changes roles
+- Discord changes roles (boosters)
+- RoleLogic's own rules make changes
+
+Processing Flow:
+1. Event occurs (role change, member join, etc.)
+2. RoleLogic checks all enabled rules in priority order
+3. Matching rules execute their actions
+4. Cascade check: If changes were made, rules are checked again
+5. Repeat until no more rules match (max 100 passes)
+
+### Cascading
+
+One rule's action can trigger another rule:
+1. Member gets "Level 10"
+2. Rule A fires: "If Level 10 → add Premium"
+3. Rule B fires: "If Premium → add VIP-Access"
+4. No more rules match—done
+
+Background Sync: RoleLogic runs a continuous background scan every 10 minutes to catch any missed changes. For larger servers, sync processes up to 1,000 members per interval.
+
+---
+
+## Condition Types
+
+Conditions are the "IF" part of your rules. They determine which members a rule applies to.
+
+### Quick Reference
+
+| Condition | Matches When |
+|-----------|--------------|
+| Has Some Roles | Member has ANY of the roles |
+| Has All Roles | Member has EVERY role |
+| Lacks Some Roles | Member is missing ANY role |
+| Lacks All Roles | Member has NONE of the roles |
+| Exactly N | Member has exactly N roles |
+| At Least N | Member has N or more roles |
+| At Most N | Member has N or fewer roles |
+| More Than N | Member has more than N roles |
+| Less Than N | Member has fewer than N roles |
+
+### Role Presence Conditions
+
+**Has Some Roles**: Matches if member has at least one of the specified roles.
+Example: IF has some of [Booster, Premium, VIP] → add Exclusive-Access
+Fires if member has Booster OR Premium OR VIP.
+
+**Has All Roles**: Matches if member has every specified role.
+Example: IF has all of [Verified, Level 10, Active] → add Trusted
+Only fires if member has ALL THREE roles.
+
+**Lacks Some Roles**: Matches if member is missing at least one role.
+Example: IF lacks some of [Verified, Rules-Accepted] → add Needs-Setup
+Fires if member is missing Verified OR Rules-Accepted.
+
+**Lacks All Roles**: Matches if member has none of the specified roles.
+Example: IF lacks all of [Bronze, Silver, Gold] → add No-Tier
+Only fires if member has NONE of the tier roles.
+
+### Threshold Conditions
+
+**Exactly N Roles**: Member has precisely N of the specified roles.
+**At Least N Roles**: Member has N or more of the specified roles.
+**At Most N Roles**: Member has N or fewer of the specified roles.
+**More Than N Roles**: Member has more than N of the specified roles.
+**Less Than N Roles**: Member has fewer than N of the specified roles.
+
+### Combining Conditions (AND)
+
+Add up to 9 additional conditions with AND logic. All must be true.
+Example: IF has some of [Verified] AND has at least 2 of [Event-1, Event-2, Event-3, Event-4] AND lacks all of [Banned, Muted] → THEN add Event-Regular
+
+---
+
+## Actions (Add & Remove Roles)
+
+Actions are the "THEN" part of your rules. They define what happens when a condition matches.
+
+### Add Roles
+
+Give members one or more roles.
+Example: IF has "Server Booster" → add "VIP", "Booster Perks"
+
+Behavior:
+- Roles the member already has = no change
+- Roles they don't have = added
+
+### Remove Roles
+
+Take away one or more roles.
+Example: IF has "Verified" → remove "Unverified", "New Member"
+
+Behavior:
+- Roles the member has = removed
+- Roles they don't have = no change
+
+### Combining Actions
+
+Click "Add Combined Action" to add AND remove in one rule.
+Example: IF has "Promoted" → add "Staff" AND remove "Trainee", "Helper"
+
+### Action Behavior
+
+- **Idempotent**: Running the same action multiple times has the same result
+- **Real-time**: Changes happen within seconds of the condition matching
+- **Cascading**: Actions can trigger other rules
+
+---
+
+## Role Hierarchy
+
+Discord has security rules about which roles can manage others.
+
+### The Basic Rule
+
+A bot can only manage roles that are BELOW its own role in the server's role list. This is a Discord security feature, not a RoleLogic limitation.
+
+Example:
+```
+Admin          ← Cannot manage
+Moderator      ← Cannot manage
+RoleLogic      ← Bot's position
+VIP            ← CAN manage
+Member         ← CAN manage
+Unverified     ← CAN manage
+@everyone      ← CAN manage
+```
+
+### Setting Up RoleLogic's Position
+
+1. In Discord, go to Server Settings → Roles
+2. Find the "RoleLogic" role
+3. Drag it above all roles you want it to manage
+4. Save
+
+### The Manage Roles Permission
+
+RoleLogic also needs the "Manage Roles" permission (requested during invite).
+
+To verify:
+1. Go to Server Settings → Roles
+2. Click the RoleLogic role
+3. Check that "Manage Roles" is enabled
+
+---
+
+# SECTION 4: FEATURES
+
+## Visual Rule Builder
+
+The Rule Builder is RoleLogic's main interface for creating automation rules. No coding required—just point and click.
+
+### Creating a Rule
+
+1. Click "Add New Rule" in the sidebar or main area
+2. Choose condition type: Has Some, Has All, Lacks Some, etc.
+3. Select roles to check
+4. Choose action type: Add Roles or Remove Roles
+5. Select roles to add or remove
+6. Configure description and priority
+7. Save
+
+### Rule Status
+
+| Status | Color | Meaning |
+|--------|-------|---------|
+| Enabled | Green | Active and processing |
+| Disabled | Gray | Saved but not running |
+| Pending | Yellow | Queued, waiting for sync |
+| Stopped | Red | Auto-stopped due to conflicts |
+
+---
+
+## Testing Sandbox
+
+The Testing Sandbox lets you simulate rule execution before affecting real members.
+
+### How to Test
+
+1. Select roles to simulate a member having
+2. Click "Run Test" to simulate
+3. Review results: roles added, roles removed, rules triggered
+4. Adjust test roles and run again for different scenarios
+
+### What to Test
+
+- New member (no roles except @everyone)
+- Verified member with basic roles
+- VIP member with premium roles
+- Staff member with mod roles
+- Edge cases: all roles, conflicting roles, only @everyone
+
+---
+
+## Webhooks & Notifications
+
+RoleLogic can send notifications to Discord channels when roles change.
+
+### Setting Up Webhooks
+
+1. Grant RoleLogic "Manage Webhooks" permission in the target channel
+2. In dashboard, go to Logs/Webhooks section
+3. Click "Create New Log"
+4. Select target channel and configure message content
+5. Attach to rules
+
+### Using Placeholders
+
+#### User Placeholders
+| Placeholder | Output |
+|-------------|--------|
+| {user.mention} | @JohnDoe |
+| {user.nickname} | JohnDoe (server nickname or username) |
+| {user.tag} | JohnDoe#1234 |
+| {user.id} | 123456789012345678 |
+| {user.avatar_url} | URL to user's avatar |
+
+#### Role Placeholders
+| Placeholder | Output |
+|-------------|--------|
+| {roles.added.names} | VIP, Premium |
+| {roles.added.mentions} | @VIP, @Premium |
+| {roles.removed.names} | Guest, Trial |
+| {roles.removed.mentions} | @Guest, @Trial |
+
+#### Server Placeholders
+| Placeholder | Output |
+|-------------|--------|
+| {server.name} | My Server |
+| {server.id} | 987654321098765432 |
+| {server.member_count} | 1,234 |
+| {server.description} | Server description |
+| {server.icon_url} | URL to server icon |
+| {server.banner_url} | URL to server banner |
+| {server.vanity_url} | discord.gg/myserver |
+| {server.boost_count} | 15 |
+| {server.boost_tier} | 2 |
+
+#### Channel Placeholders
+| Placeholder | Output |
+|-------------|--------|
+| {channel.name} | role-logs |
+| {channel.mention} | #role-logs |
+| {channel.topic} | Channel topic |
+| {channel.url} | Direct link to channel |
+| {channel.category.name} | Admin Channels |
+
+#### Bot Placeholders
+| Placeholder | Output |
+|-------------|--------|
+| {bot.mention} | @RoleLogic |
+| {bot.nickname} | RoleLogic |
+| {bot.avatar_url} | URL to bot avatar |
+
+#### Time and Date Placeholders
+| Placeholder | Output |
+|-------------|--------|
+| {time:short} | 3:45 PM |
+| {time:long} | 3:45:30 PM |
+| {date:short} | 01/15/2024 |
+| {date:long} | January 15, 2024 |
+| {timestamp} | Discord timestamp (renders dynamically) |
+| {timestamp:r} | 5 minutes ago (relative) |
+
+---
+
+## Cross-Server Actions
+
+RoleLogic can manage roles across multiple Discord servers.
+
+### What Are Cross-Server Actions?
+
+Normally, rules work within one server. Cross-server actions let you:
+- Check roles in Server A
+- Add/remove roles in Server B
+
+### Requirements
+
+1. RoleLogic in all servers — Bot must be present with "Manage Roles" permission
+2. Proper hierarchy in each server — Bot's role above managed roles
+3. Member in both servers — Actions only work for members in both
+
+### Use Cases
+
+- Server Networks: VIP in Main Server → VIP-Access in Lounge Server
+- Partner Programs: Partner in Server A → Partner-Badge in Servers B, C, D
+- Organization Sync: Team-Lead in HR Server → Leadership-Access in department servers
+
+### Limitations
+
+- Member must be in both servers (actions silently skip otherwise)
+- Cross-server uses role slots from quota
+- Bot may have different hierarchy positions in each server
+- Be careful to avoid loops with bidirectional setups
+
+---
+
+## Activity Log
+
+A record of all changes made to your RoleLogic configuration. Shows who created, modified, or deleted rules, webhooks, and settings.
+
+### What It Tracks
+
+- Rule creation, updates, deletions
+- Webhook/log configuration changes
+- Server settings modifications
+- Quota changes
+
+**Note:** This tracks *configuration* changes, not role changes to members (that's Webhook Logs).
+
+### Action Types
+
+| Action | Meaning |
+|--------|---------|
+| Create | New item added |
+| Update | Existing item modified |
+| Delete | Item removed |
+| Pause | Rule temporarily stopped |
+| Start | Rule enabled/resumed |
+| Stop | Rule disabled |
+
+### Activity Log Channel
+
+Send configuration changes to a Discord channel:
+1. Go to server settings in dashboard
+2. Find Activity Log Channel
+3. Select a channel
+4. Enable
+
+Now configuration changes post to Discord automatically. Best practice: Use a staff-only channel.
+
+### Filtering
+
+Filter by:
+- Action type: Only creates, only updates, etc.
+- Entity type: Only rules, only logs, etc.
+- Combined: "Update" + "Rule" = all rule modifications
+
+---
+
+# SECTION 5: SYSTEM LIMITS
+
+## Quick Reference
+
+| Category | Limit | Value |
+|----------|-------|-------|
+| Rules per server (free) | Default | 2 rules |
+| Conditions per rule | Maximum | 10 (1 primary + 9 AND) |
+| Actions per rule | Maximum | 2 (add + remove) |
+| Roles per action | Maximum | 250 roles |
+| Roles per condition | Maximum | 250 roles |
+| Cross-server syncs | Default | 5 linked servers |
+| Cascade passes | Safety limit | 100 passes |
+
+## Processing Timing
+
+| Process | Timing |
+|---------|--------|
+| Real-time processing | Triggered instantly on role changes |
+| Debounce delay | 10 seconds |
+| Scheduled sync interval | Every 10 minutes (up to 1,000 members per interval) |
+| Rule activation after update | Within 1 hour |
+
+## Premium Plans
+
+| Tier | Price | Additional Rules | Total Rules |
+|------|-------|-----------------|-------------|
+| Free | $0 | 0 | 2 |
+| Tier 1 | $2/mo | +10 | 12 |
+| Tier 2 | $5/mo | +36 | 38 |
+| Tier 3 | $7/mo | +74 | 76 |
+| Tier 4 | $10/mo | +130 | 132 |
+| Tier 5 | $14/mo | +208 | 210 |
+
+## Quota Management
+
+- Quota is allocated per-server
+- 7-day cooldown before reassigning quota to different server
+- Rules are deactivated (not deleted) when downgrading
+- Upgrade again and deactivated rules reactivate
+
+## Safety Limits
+
+- **Reverted Action Detection**: If RoleLogic detects 100+ reverted actions per hour, the rule is automatically stopped
+- **Cascade Limit**: Maximum 100 passes to prevent infinite loops
+- **Loop Detection**: Rules are validated at creation time to detect potential infinite loops
+
+---
+
+# SECTION 6: PRICING
+
+## Plan Comparison
+
+| Feature | Free | Premium |
+|---------|------|---------|
+| Rules per server | 2 | Up to 210 |
+| All condition types | Yes | Yes |
+| All action types | Yes | Yes |
+| Testing sandbox | Yes | Yes |
+| Activity log | Yes | Yes |
+| Cross-server links | 5 servers | 5 servers |
+| Webhook notifications | With watermark | No watermark |
+| Support | Community | Priority |
+
+## Free Plan
+
+The free plan includes everything you need to get started:
+- 2 rules per server
+- All 9 condition types
+- All action types
+- Testing sandbox
+- Activity log
+- 5 cross-server links
+
+Perfect for: Small servers, basic verification systems, simple booster rewards
+
+## Premium Tiers
+
+| Tier | Price | Additional Rules | Total Rules | Best For |
+|------|-------|-----------------|-------------|----------|
+| Tier 1 | $2.00/mo | +10 | 12 | Small servers with moderate needs |
+| Tier 2 | $5.00/mo | +36 | 38 | Growing servers with complex setups |
+| Tier 3 | $7.00/mo | +74 | 76 | Large servers with tier systems |
+| Tier 4 | $10.00/mo | +130 | 132 | Very active servers with many features |
+| Tier 5 | $14.00/mo | +208 | 210 | Enterprise/network-level automation |
+
+## How to Upgrade
+
+1. Open the Upgrade section in your RoleLogic dashboard
+2. Choose a tier that fits your needs
+3. Complete subscription through Patreon
+4. Your quota syncs automatically within 5 minutes
+5. Assign quota to your server(s)
+
+---
+
+# SECTION 7: COMMON SCENARIOS (50+ Examples)
+
+## Verification Systems
+
+### Basic Verification Cleanup
+- IF: Has Some Roles → [Verified]
+- THEN: Remove Roles → [Unverified, Guest, New Member]
+
+### Pending Verification
+- IF: Lacks All Roles → [Verified, Pending, Rejected]
+- THEN: Add Roles → [Pending]
+
+### Complete 2-Step Verification
+- IF: Has All Roles → [Email Verified, Rules Accepted]
+- THEN: Add Roles → [Verified, Member Access]
+
+## Tier and Level Systems
+
+### Auto-Remove Lower Tiers
+Rule 1 (Priority 0):
+- IF: Has Some Roles → [Gold Tier]
+- THEN: Remove Roles → [Bronze Tier, Silver Tier]
+
+Rule 2 (Priority 1):
+- IF: Has Some Roles → [Silver Tier]
+- THEN: Remove Roles → [Bronze Tier]
+
+### MEE6/Leveling Bot Integration
+- IF: Has Some Roles → [Level 20]
+- THEN: Remove Roles → [Level 5, Level 10, Level 15]
+
+## VIP and Rewards
+
+### Server Booster VIP
+- IF: Has Some Roles → [Server Booster]
+- THEN: Add Roles → [VIP, Booster Perks, Exclusive Access]
+
+### Multi-Qualification VIP
+- IF: Has All Roles → [Supporter, Active Member]
+- THEN: Add Roles → [VIP]
+
+### Loyalty Badge (Collectors)
+- IF: At Least 3 Roles → [Achievement 1, Achievement 2, Achievement 3, Achievement 4, Achievement 5]
+- THEN: Add Roles → [Collector Badge]
+
+### Remove VIP When Booster Lapses
+- IF: Lacks All Roles → [Server Booster, Patreon Supporter, Premium]
+- THEN: Remove Roles → [VIP, Exclusive Access, Booster Perks]
+
+## Staff Management
+
+### Staff Promotion Cleanup
+- IF: Has Some Roles → [Moderator]
+- THEN: Remove Roles → [Trial Moderator, Helper, Trainee]
+
+### Staff Base Permissions
+- IF: Has Some Roles → [Helper, Moderator, Admin, Owner]
+- THEN: Add Roles → [Staff, Staff Lounge Access]
+
+### Staff Removal on Suspension
+- IF: Has Some Roles → [Banned, Suspended]
+- THEN: Remove Roles → [Helper, Moderator, Admin, Staff, Staff Lounge Access]
+
+## Access Control
+
+### Age-Restricted Access
+- IF: Has All Roles → [Verified, 18+]
+- THEN: Add Roles → [Adult Channels Access]
+
+### Revoke Access on Mute
+- IF: Has Some Roles → [Muted]
+- THEN: Remove Roles → [General Access, Voice Access, Media Access]
+
+### Restore Access After Unmute
+- IF: Has All Roles → [Member] AND Lacks All Roles → [Muted, Banned, Suspended]
+- THEN: Add Roles → [General Access]
+
+## Free Plan Examples (2 Rules)
+
+### Setup 1: Verification + Booster Rewards
+Rule 1: IF Has Some [Verified] → Remove [Unverified, Guest, Pending]
+Rule 2: IF Has Some [Server Booster] → Add [VIP, Booster Perks]
+
+### Setup 2: Tier System (Consolidated)
+Rule 1: IF Has Some [Gold, Platinum] → Remove [Bronze, Silver]
+Rule 2: IF Has Some [Bronze, Silver, Gold, Platinum] → Add [Tier Benefits, Member Access]
+
+### Setup 3: Staff + Mute System
+Rule 1: IF Has Some [Helper, Mod, Admin] → Add [Staff, Staff Chat Access]
+Rule 2: IF Has Some [Muted] → Remove [Chat Access, Voice Access]
+
+## Cross-Server Actions
+
+### VIP Sync Across Servers
+- IF: Has Some Roles → [VIP]
+- THEN: Add Roles → [Lounge Access] (from Lounge Server)
+
+### Partner Network Badge
+- IF: Has Some Roles → [Partner]
+- THEN: Add Roles → [Partner Badge] (from Gaming Server), [Partner Badge] (from Events Server)
+
+### Verification Sync
+- IF: Has All Roles → [Verified, Member]
+- THEN: Add Roles → [Verified] (from Partner Server) AND Remove Roles → [Unverified] (from Partner Server)
+
+---
+
+# SECTION 8: BEST PRACTICES
+
+## Planning Your Setup
+
+1. Start With Goals, Not Rules: Define what you want to achieve before creating rules
+2. Map Your Role Structure: Sketch your role hierarchy before automating
+3. Consider All Paths: Think about how members move through your roles
+
+## Writing Effective Rules
+
+1. One Purpose Per Rule: Each rule should do one logical thing
+2. Use Descriptive Names: "Remove Unverified when member gets Verified" not "Rule 1"
+3. Keep Conditions Simple: Use complexity only when the situation requires it
+
+## Managing Priority
+
+1. Use Priority Intentionally:
+   - Foundation rules first (Priority 0-2): Verification, basic access
+   - Feature rules middle (Priority 3-6): Tiers, rewards, perks
+   - Cleanup rules last (Priority 7-10): Removing old roles
+
+2. Leave Gaps: Don't use consecutive priorities (0, 1, 2, 3...). Leave gaps for future rules.
+
+## Testing Strategies
+
+1. Always test in sandbox before enabling
+2. Test edge cases (no roles, all roles, conflicting roles)
+3. Test rule interactions
+4. Verify after major changes
+
+## Security Best Practices
+
+1. Protect Staff Roles: Position RoleLogic's role below admin/owner roles
+2. Review Rule Changes: Use Activity Log to audit changes
+3. Be Careful With Remove Actions: Double-check targeting
+
+## Quota Management
+
+1. Consolidate rules where possible (use "Has Some" with multiple roles instead of multiple rules)
+2. Delete obsolete rules promptly
+3. Upgrade when consistently hitting limits
+
+---
+
+# SECTION 9: FAQ
+
+## Getting Started
+
+**Q: What is RoleLogic?**
+A: RoleLogic is a Discord bot that automatically manages roles. You create IF-THEN rules like "If member has Booster → add VIP," and RoleLogic handles it 24/7.
+
+**Q: Is RoleLogic free?**
+A: Yes. The free plan includes 2 rules per server, all features, and 5 cross-server links. Premium plans start at $2/month for more rules.
+
+**Q: What permissions does RoleLogic need?**
+A: Only "Manage Roles". RoleLogic cannot read messages, access DMs, or see any private information.
+
+**Q: Is my data safe?**
+A: Yes. We only store Discord IDs and rule configurations. We don't store messages, passwords, or personal information.
+
+## Rules & Features
+
+**Q: How many rules can I create?**
+A: Free: 2 rules per server. Premium: Up to 210 rules ($2-$14/month).
+
+**Q: Can rules trigger other rules?**
+A: Yes, this is called cascading. RoleLogic limits this to 100 passes to prevent infinite loops.
+
+**Q: Can I add AND remove roles in the same rule?**
+A: Yes. Use "Add Combined Action" to add some roles AND remove others in one rule.
+
+**Q: How quickly do changes happen?**
+A: Real-time: Rules trigger immediately when roles change. Background sync: Every 10 minutes.
+
+## Troubleshooting
+
+**Q: My rule isn't working. What should I check?**
+A: Check in order:
+1. Is the rule enabled?
+2. Is the role hierarchy correct? (RoleLogic's role must be ABOVE roles it manages)
+3. Does the condition match? (Test in sandbox)
+4. Does RoleLogic have "Manage Roles" permission?
+5. Is there a conflict? (Another bot or moderator reverting changes)
+
+**Q: "Cannot manage this role" error?**
+A: The role is above RoleLogic in the hierarchy. Go to Discord Server Settings → Roles, drag RoleLogic above roles you want to manage.
+
+**Q: My rule keeps getting stopped?**
+A: RoleLogic stops rules when it detects conflicts (100+ reverted actions per hour). Identify the conflict (another bot, manual changes, conflicting rules), fix it, then re-enable.
+
+**Q: Changes keep reverting?**
+A: Another system is undoing RoleLogic's changes. Check: other bots, moderators, Discord integrations, or your own conflicting rules.
+
+## Cross-Server
+
+**Q: Can RoleLogic manage roles across servers?**
+A: Yes. Requirements: RoleLogic in both servers, member in both servers, correct hierarchy in target server.
+
+**Q: Cross-server action not working?**
+A: Check: RoleLogic in BOTH servers, member in BOTH servers, role hierarchy correct in TARGET server, "Manage Roles" permission in both.
+
+## Premium & Billing
+
+**Q: How do I upgrade?**
+A: Dashboard → Upgrade → Choose tier → Subscribe through Patreon → Quota syncs within 5 minutes.
+
+**Q: What happens if I downgrade?**
+A: Rules are deactivated, not deleted. Most recent rules stay active within your new quota. Upgrade again and deactivated rules reactivate.
+
+**Q: Can I share premium across servers?**
+A: Yes. Assign your quota across multiple servers as needed.
+
+**Q: Is there a free trial?**
+A: The free plan (2 rules) serves as your trial. No time limit.
+
+---
+
+# SECTION 10: GLOSSARY
+
+## Key Terms
+
+**Action**: The "THEN" part of a rule. Actions define what happens when a condition matches. RoleLogic supports Add Roles and Remove Roles.
+
+**Activity Log**: A record of all changes made to your RoleLogic configuration.
+
+**AND Condition**: An additional condition added to a rule using "Add AND Condition." All AND conditions must be true for the rule to trigger.
+
+**Bot**: A Discord application that can perform automated actions. RoleLogic is a bot that manages roles automatically.
+
+**Cascading**: When one rule's action triggers another rule. RoleLogic handles cascading automatically.
+
+**Condition**: The "IF" part of a rule. Conditions define which members a rule applies to based on their current roles.
+
+**Cross-Server Action**: An action that affects roles in a different Discord server than where the rule is configured.
+
+**Dashboard**: The web interface where you manage RoleLogic.
+
+**Guild**: Discord's technical term for a "server."
+
+**Manage Roles Permission**: The Discord permission RoleLogic needs to add and remove roles from members.
+
+**Match**: When a rule's condition evaluates to true for a member.
+
+**Placeholder**: A variable in webhook messages that gets replaced with actual data when sent.
+
+**Premium**: Paid subscription plans that expand quotas and unlock additional features.
+
+**Priority**: A number that determines the order rules execute. Lower numbers run first.
+
+**Quota**: Limits on how many rules and resources you can use.
+
+**Role**: A Discord role that can be assigned to members.
+
+**Role Hierarchy**: Discord's system where roles are ranked from highest to lowest. Bots can only manage roles below their own position.
+
+**Rule**: A complete automation instruction combining a condition (IF) and action (THEN).
+
+**Sandbox**: The testing environment where you can simulate rule execution without affecting real members.
+
+**Threshold**: A number used in count-based conditions.
+
+**Trigger**: When a condition matches and causes a rule's action to execute.
+
+**Watermark**: Branding included in webhook messages on the free plan. Premium plans remove the watermark.
+
+**Webhook**: A Discord feature that allows external services to post messages to channels.
+
+## Condition Types Quick Reference
+
+| Term | Meaning |
+|------|---------|
+| Has Some Roles | Member has at least one of the specified roles |
+| Has All Roles | Member has every specified role |
+| Lacks Some Roles | Member is missing at least one specified role |
+| Lacks All Roles | Member has none of the specified roles |
+| Exactly N Roles | Member has exactly N of the specified roles |
+| At Least N Roles | Member has N or more of the specified roles |
+| At Most N Roles | Member has N or fewer of the specified roles |
+| More Than N Roles | Member has more than N of the specified roles |
+| Less Than N Roles | Member has fewer than N of the specified roles |
+
+## Rule Status Quick Reference
+
+| Status | Meaning |
+|--------|---------|
+| Enabled | Rule is active and processing |
+| Disabled | Rule is saved but not running |
+| Pending | Rule is queued, waiting for sync |
+| Stopped | Rule was auto-stopped due to conflicts |
+
+---
+
+# SECTION 11: TECHNICAL SPECIFICATIONS
+
+## Architecture
+
+| Component | Technology |
+|-----------|------------|
+| Backend API | NestJS, PostgreSQL, Prisma ORM |
+| Frontend Dashboard | React 18+, TypeScript, i18next |
+| Bot Service | Discord.js |
+| Authentication | Discord OAuth |
+
+## Supported Languages
+
+1. English (en)
+2. Arabic (ar)
+3. German (de)
+4. Spanish (es)
+5. French (fr)
+6. Malay (ms)
+7. Portuguese Brazilian (pt-BR)
+
+## Server Scaling
+
+| Server Size | Expected Performance |
+|-------------|---------------------|
+| Small (< 1,000 members) | Instant processing |
+| Medium (1,000-10,000 members) | Near-instant processing |
+| Large (10,000-50,000 members) | Fast processing |
+| Very large (50,000+ members) | Optimized batch processing |
+
+---
+
+# CONTACT & SUPPORT
+
+- Website: https://rolelogic.faizo.net
+- Documentation: https://docs-rolelogic.faizo.net
+- Support Server: https://discord.gg/2wB7rHRDg2
+
+---
+
+Document generated for AI/LLM consumption. Last updated: 2026.
