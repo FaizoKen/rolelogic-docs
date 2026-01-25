@@ -1,41 +1,33 @@
-# Website
+# RoleLogic Community Guide
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+A community-driven documentation and guide for the RoleLogic App. Anyone can share or contribute to this guide!
 
-## Installation
+## Contributing
 
-```bash
-yarn
-```
+We welcome contributions from the community. Feel free to submit pull requests with improvements, corrections, or new content.
 
 ## Local Development
 
-```bash
-yarn start
-```
+This site is built using [Docusaurus](https://docusaurus.io/).
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
-
-## Build
+### Installation
 
 ```bash
-yarn build
+npm install
 ```
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
-
-## Deployment
-
-Using SSH:
+### Start Development Server
 
 ```bash
-USE_SSH=true yarn deploy
+npm start
 ```
 
-Not using SSH:
+This starts a local development server and opens a browser window. Changes are reflected live without restarting the server.
+
+### Build
 
 ```bash
-GIT_USER=<Your GitHub username> yarn deploy
+npm run build
 ```
 
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+Generates static content into the `build` directory for deployment.
