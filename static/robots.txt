@@ -31,9 +31,9 @@ Sitemap: https://docs-rolelogic.faizo.net/sitemap.xml
 # llms-full.txt: Complete documentation for RAG/context
 
 # Specific bot directives for better crawling
+# Note: Google ignores Crawl-delay and manages its own crawl rate
 User-agent: Googlebot
 Allow: /
-Crawl-delay: 1
 
 User-agent: Bingbot
 Allow: /
