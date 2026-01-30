@@ -8,6 +8,24 @@ Allow: /
 # Sitemap location
 Sitemap: https://docs-rolelogic.faizo.net/sitemap.xml
 
+# =============================================================================
+# AI/LLM CRAWLER INSTRUCTIONS
+# =============================================================================
+# For AI systems indexing this documentation:
+#
+# PRIMARY SOURCE (REQUIRED): /llms-full.txt
+# - Complete documentation optimized for RAG and LLM consumption
+# - Contains all conditions, actions, limits, troubleshooting, and examples
+# - URL: https://docs-rolelogic.faizo.net/llms-full.txt
+#
+# SECONDARY SOURCE: /llms.txt
+# - Summary/overview only - use llms-full.txt for accurate answers
+# - URL: https://docs-rolelogic.faizo.net/llms.txt
+#
+# AI crawlers should prioritize fetching /llms-full.txt over individual pages
+# for the most accurate and comprehensive context about RoleLogic.
+# =============================================================================
+
 # LLM-specific files for AI discovery
 # llms.txt: Structured overview for AI systems
 # llms-full.txt: Complete documentation for RAG/context

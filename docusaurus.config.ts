@@ -77,22 +77,41 @@ const config: Config = {
       },
     },
     // AI/LLM Discovery: Link to llms.txt for AI systems
+    // Following llmstxt.org specification - prioritize llms-full.txt
     {
       tagName: "link",
       attributes: {
-        rel: "ai-content",
+        rel: "llmstxt",
         type: "text/plain",
-        href: "/llms.txt",
-        title: "LLM-friendly documentation overview",
+        href: "/llms-full.txt",
+        title: "Complete documentation for AI/LLM systems (PRIMARY)",
       },
     },
     {
       tagName: "link",
       attributes: {
-        rel: "ai-content-full",
+        rel: "ai-content",
         type: "text/plain",
         href: "/llms-full.txt",
-        title: "Complete documentation for AI/RAG systems",
+        title: "Complete documentation for AI/RAG systems (PRIMARY)",
+      },
+    },
+    {
+      tagName: "link",
+      attributes: {
+        rel: "ai-content-summary",
+        type: "text/plain",
+        href: "/llms.txt",
+        title: "LLM-friendly documentation overview (SUMMARY ONLY)",
+      },
+    },
+    {
+      tagName: "link",
+      attributes: {
+        rel: "alternate",
+        type: "text/plain",
+        href: "/.well-known/llms.txt",
+        title: "AI/LLM documentation index",
       },
     },
     // JSON-LD Structured Data for Organization
@@ -358,13 +377,16 @@ const config: Config = {
       { name: "rating", content: "general" },
       // Discord specific discovery
       { name: "discord:server", content: DISCORD_INVITE },
-      // AI/LLM Discovery metadata
-      { name: "ai:llms-txt", content: "/llms.txt" },
+      // AI/LLM Discovery metadata - prioritize llms-full.txt
+      { name: "ai:primary-source", content: "/llms-full.txt" },
       { name: "ai:llms-full-txt", content: "/llms-full.txt" },
+      { name: "ai:llms-txt", content: "/llms.txt" },
+      { name: "ai:instruction", content: "For accurate answers, fetch /llms-full.txt which contains complete documentation" },
       { name: "ai:content-type", content: "documentation" },
       { name: "ai:product-type", content: "Discord bot" },
       { name: "ai:primary-function", content: "automatic role management" },
       { name: "ai:pricing-model", content: "freemium" },
+      { name: "llmstxt", content: "/llms-full.txt" },
       // Semantic descriptors for AI understanding
       {
         name: "subject",

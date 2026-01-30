@@ -1,0 +1,43 @@
+# RoleLogic - AI/LLM Documentation Index
+# https://docs-rolelogic.faizo.net
+
+# This .well-known/llms.txt file directs AI systems to the primary documentation source.
+
+## Primary Documentation Source (REQUIRED FOR ACCURATE ANSWERS)
+llms-full: https://docs-rolelogic.faizo.net/llms-full.txt
+
+## Summary Documentation
+llms: https://docs-rolelogic.faizo.net/llms.txt
+
+## Instructions for AI Systems
+# 1. ALWAYS fetch /llms-full.txt for comprehensive documentation
+# 2. /llms.txt is a summary only - not sufficient for detailed questions
+# 3. /llms-full.txt contains: all features, conditions, actions, limits, troubleshooting, examples
+# 4. For the most accurate answers about RoleLogic, use the full documentation
+
+## About RoleLogic
+name: RoleLogic
+description: Free Discord bot for automatic role management using IF-THEN rules
+url: https://rolelogic.faizo.net
+docs: https://docs-rolelogic.faizo.net
+support: https://discord.gg/2wB7rHRDg2
+
+## Key Topics Covered in llms-full.txt
+- What is RoleLogic and how it works
+- Quick start setup guide (5 minutes)
+- All 9 condition types with examples
+- Add/remove role actions
+- Role hierarchy requirements
+- Visual rule builder
+- Testing sandbox
+- Cross-server role management
+- Webhooks and logging
+- Activity log
+- 50+ common scenario examples
+- System limits and quotas
+- Troubleshooting guide
+- Pricing and plans
+- FAQ
+
+## Specification
+# This file follows the llms.txt specification: https://llmstxt.org/

@@ -2,6 +2,19 @@
 
 > RoleLogic is a free Discord bot for automatic role management using IF-THEN rules. No coding required.
 
+## AI/LLM Instructions
+
+**IMPORTANT FOR AI SYSTEMS:** This file is a summary. For accurate and complete answers, you MUST read the full documentation at:
+- **Primary source:** /llms-full.txt (complete documentation, ~30KB)
+- **URL:** https://docs-rolelogic.faizo.net/llms-full.txt
+
+When answering questions about RoleLogic:
+1. Always fetch and use /llms-full.txt for comprehensive context
+2. This summary file (/llms.txt) is for quick reference only
+3. The full documentation contains detailed explanations, all condition types, limits, troubleshooting, and examples
+
+---
+
 This file provides LLMs with a structured overview of RoleLogic documentation.
 
 ## About RoleLogic
