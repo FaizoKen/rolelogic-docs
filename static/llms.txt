@@ -57,6 +57,7 @@ RoleLogic automatically manages Discord server roles. Users create IF-THEN rules
 - [Conditions Reference](/reference/conditions-reference): Complete condition documentation
 - [Placeholders Reference](/reference/placeholders-reference): Webhook message variables
 - [Limits Reference](/reference/limits-reference): System constraints and quotas
+- [Role Link API Reference](/reference/role-link-api): External REST API for managing role-linked users with token authentication
 
 ### Other Pages
 - [Plans & Pricing](/plans): Free vs Premium comparison with pricing
@@ -90,6 +91,21 @@ RoleLogic automatically manages Discord server roles. Users create IF-THEN rules
 | Cascade limit | 100 passes |
 | Cross-server links | 5 servers |
 | Quota reassignment cooldown | 7 days |
+
+### Role Link API (External)
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | /api/role-link/:guildId/:roleId/users | List all linked user IDs |
+| PUT | /api/role-link/:guildId/:roleId/users | Replace entire user list (batch) |
+| GET | /api/role-link/:guildId/:roleId/users/:userId | Check if user exists |
+| POST | /api/role-link/:guildId/:roleId/users/:userId | Add a user (idempotent) |
+| DELETE | /api/role-link/:guildId/:roleId/users/:userId | Remove a user (idempotent) |
+
+- Auth: `Authorization: Token rl_...` (not Bearer)
+- Base URL: https://apirolelogic.faizo.net
+- Tokens scoped per role link (guild + role pair)
+- Free: 100 users/role link, Premium: 1,000,000 users/role link
+- 10 role links per server
 
 ### Processing Timing
 | Process | Timing |

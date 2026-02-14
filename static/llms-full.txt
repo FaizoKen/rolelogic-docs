@@ -929,6 +929,116 @@ A: The free plan (2 rules) serves as your trial. No time limit.
 
 ---
 
+# SECTION 12: ROLE LINK API REFERENCE (EXTERNAL)
+
+The Role Link external API lets external applications manage users linked to a Discord role programmatically via HTTP. Use it to grant Discord roles after purchases, sync membership from external databases, automate verification, or integrate with third-party platforms.
+
+## Base URL
+
+https://apirolelogic.faizo.net
+
+## Authentication
+
+Every request requires an `Authorization` header using the `Token` scheme (NOT `Bearer`):
+
+```
+Authorization: Token rl_your_token_here
+```
+
+Tokens start with `rl_` prefix. Each token is scoped to one role link (one guild + one role pair). Generate tokens from the RoleLogic Dashboard under Role Links > Reset Token. Tokens are shown only once; resetting generates a new token and immediately invalidates the old one.
+
+## Endpoints
+
+### GET /api/role-link/:guildId/:roleId/users
+List all user IDs linked to this role.
+
+Response:
+```json
+{ "data": ["123456789012345678", "234567890123456789"] }
+```
+
+### PUT /api/role-link/:guildId/:roleId/users
+Atomically replace the entire user list. Request body is a JSON array of Discord user ID strings.
+
+Request body:
+```json
+["123456789012345678", "234567890123456789"]
+```
+
+Response:
+```json
+{ "data": { "user_count": 2 } }
+```
+
+- Duplicates are deduplicated automatically.
+- Empty array `[]` removes all users.
+- 2-minute timeout for large payloads.
+
+### GET /api/role-link/:guildId/:roleId/users/:userId
+Check if a specific user exists in the list.
+
+Response:
+```json
+{ "data": { "exists": true } }
+```
+
+### POST /api/role-link/:guildId/:roleId/users/:userId
+Add a single user. Idempotent: returns `added: false` if user already exists.
+
+Response:
+```json
+{ "data": { "added": true } }
+```
+
+### DELETE /api/role-link/:guildId/:roleId/users/:userId
+Remove a single user. Idempotent: returns `removed: false` if user was not in list.
+
+Response:
+```json
+{ "data": { "removed": true } }
+```
+
+## Path Parameters
+
+- `guildId`: Discord server (guild) ID (numeric snowflake)
+- `roleId`: Discord role ID (numeric snowflake)
+- `userId`: Discord user ID (17–20 digit snowflake)
+
+## Limits
+
+| Resource | Free Plan | Premium |
+|----------|-----------|---------|
+| Users per role link | 100 | 1,000,000 |
+| Role links per server | 10 | 10 |
+
+## Error Responses
+
+| Status | Message | Cause |
+|--------|---------|-------|
+| 401 | Authorization header required | Missing Authorization header |
+| 401 | Invalid authorization scheme | Used Bearer instead of Token |
+| 403 | Invalid or revoked token | Token mismatch or was reset |
+| 403 | This role link is disabled | Role link disabled in dashboard |
+| 400 | Maximum N users per role link | User limit exceeded |
+| 400 | Validation error | Invalid request body format |
+| 404 | Role link not found | No role link for this guild/role |
+
+## Role Link API FAQ
+
+Q: Can one token access multiple role links?
+A: No. Each token is scoped to exactly one guild + role pair.
+
+Q: Are endpoints idempotent?
+A: Yes. Add returns added:false if exists. Remove returns removed:false if not found. Safe to retry.
+
+Q: Does modifying users trigger Discord role sync?
+A: Yes. The bot is notified automatically and syncs within seconds.
+
+Q: What format are user IDs?
+A: Discord snowflake format: 17–20 digit numeric strings.
+
+---
+
 # CONTACT & SUPPORT
 
 - Website: https://rolelogic.faizo.net
