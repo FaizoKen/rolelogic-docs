@@ -61,6 +61,7 @@ const sidebars: SidebarsConfig = {
         'reference/conditions-reference',
         'reference/placeholders-reference',
         'reference/limits-reference',
+        'reference/role-link-api',
       ],
     },
 
