@@ -1394,7 +1394,7 @@ If the server has **more role links than its plan's integration slots** (e.g., a
 | Resource                              | Free Plan | Premium    |
 | ------------------------------------- | --------- | ---------- |
 | Users per role link                   | 1,000     | 30,000,000 |
-| Role links per server                 | 5         | Up to 213  |
+| Role links per server                 | 2         | Up to 210  |
 | Users per single `PUT /users` request | 100       | 100,000    |
 | Users per chunk in a chunked upload   | —         | 100,000    |
 | Chunked upload session TTL            | —         | 24 hours   |
@@ -1794,7 +1794,7 @@ Yes. Adding a user who already exists returns `added: false` (no error). Removin
 
 ### What is the user limit?
 
-Free plan: 1,000 users per role link. Premium: up to 30,000,000 users per role link. The user limit applies per individual role link, not per server. The number of role links shares the server's integration quota: 5 free plus any paid slots assigned to that server.
+Free plan: 1,000 users per role link. Premium: up to 30,000,000 users per role link. The user limit applies per individual role link, not per server. The number of role links shares the server's integration quota: 2 free plus any paid slots assigned to that server.
 
 ### What happens if the user count exceeds the limit?
 

@@ -15,8 +15,8 @@ Here's a summary of the most important limits:
 
 | Category                  | Limit        | Value                  |
 | ------------------------- | ------------ | ---------------------- |
-| Rules per server (free)   | Default      | 5 rules                |
-| Integrations per server (free) | Default  | 5 integrations         |
+| Rules per server (free)   | Default      | 2 rules                |
+| Integrations per server (free) | Default  | 2 integrations         |
 | Conditions per rule       | Maximum      | 10 (1 primary + 9 AND) |
 | Actions per rule          | Maximum      | 2 (add + remove)       |
 | Roles per action          | Maximum      | 250 roles              |
@@ -107,8 +107,8 @@ Quotas determine how many rules and integrations you can use per server. The sam
 
 | Resource                | Limit                               |
 | ----------------------- | ----------------------------------- |
-| Rules per server        | 5 rules                             |
-| Integrations per server | 5 integrations                      |
+| Rules per server        | 2 rules                             |
+| Integrations per server | 2 integrations                      |
 | Cross-server sync       | Up to 2 destination servers         |
 | Webhook watermark       | Included (shows RoleLogic branding) |
 | All condition types     | ✅ Full access                      |
@@ -136,11 +136,11 @@ Premium plans expand your capacity. The same quota applies to both rules and int
 
 **Premium tiers (total rules and integrations per server):**
 
-- Tier 1: 15 rules + 15 integrations
-- Tier 2: 41 rules + 41 integrations
-- Tier 3: 79 rules + 79 integrations
-- Tier 4: 135 rules + 135 integrations
-- Tier 5: 213 rules + 213 integrations
+- Tier 1: 12 rules + 12 integrations
+- Tier 2: 38 rules + 38 integrations
+- Tier 3: 76 rules + 76 integrations
+- Tier 4: 132 rules + 132 integrations
+- Tier 5: 210 rules + 210 integrations
 
 Check the Upgrade page in your dashboard for current pricing and options.
 

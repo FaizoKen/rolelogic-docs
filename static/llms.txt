@@ -29,14 +29,14 @@ Complete plain-text documentation: https://rolelogic.faizo.net/docs/llms-full.tx
 
 | Plan | Rules per server | Integrations / role links per server | Cross-server destinations |
 | --- | ---: | ---: | ---: |
-| Free | 5 | 5 | 2 |
-| Tier 1 ($2/month) | 15 | 15 | 10 |
-| Tier 2 ($5/month) | 41 | 41 | 10 |
-| Tier 3 ($7/month) | 79 | 79 | 10 |
-| Tier 4 ($10/month) | 135 | 135 | 10 |
-| Tier 5 ($14/month) | 213 | 213 | 10 |
+| Free | 2 | 2 | 2 |
+| Tier 1 ($2/month) | 12 | 12 | 10 |
+| Tier 2 ($5/month) | 38 | 38 | 10 |
+| Tier 3 ($7/month) | 76 | 76 | 10 |
+| Tier 4 ($10/month) | 132 | 132 | 10 |
+| Tier 5 ($14/month) | 210 | 210 | 10 |
 
-Paid totals include the 5 base slots plus the tier's allocated slots. Paid quota can be distributed between servers; each server retains its base slots. Quota reassignment has a 7-day cooldown.
+Paid totals include the 2 base slots plus the tier's allocated slots. Paid quota can be distributed between servers; each server retains its base slots. Quota reassignment has a 7-day cooldown.
 
 Other limits:
 
