@@ -69,6 +69,38 @@ location here). This is the path for Malaysia-based accounts:
 Checkout then adds that % on top of the plan price and it recurs on every
 invoice. Leave `STRIPE_TAX_RATE_ID` unset to charge no tax.
 
+## Coupons & promotion codes (incl. 100% off / free forever)
+
+Checkout always shows a **promotion code** field (`allow_promotion_codes`), so
+you can hand out a code without any code change: Dashboard ▸ Product catalog ▸
+Coupons → create the coupon, then add a promotion code (the customer-facing
+string) to it.
+
+**A 100%-off code does not ask for card details.** The session is created with
+`payment_method_collection: 'if_required'`, so Checkout skips the payment form
+whenever the amount due today is 0 — the buyer just confirms and the
+subscription is created `active`, the webhook mirrors it, and quota is granted
+exactly like a paid plan. Anyone paying a non-zero total (including tax) still
+enters a card as before.
+
+Two things to get right when creating such a coupon:
+
+- **Set `duration: forever`** if the user should stay free indefinitely, and
+  scope the coupon to the plan's price/product so it can't be applied elsewhere.
+  A subscription created at $0 has **no payment method on file**; with `forever`
+  every renewal invoice is $0 and settles automatically, so it never matters.
+- **A coupon that expires (`once` / `repeating`) will lapse, by design.** The
+  first invoice that actually costs money fails (no card), Stripe flips the
+  subscription to `past_due`, our webhook mirrors that status, and
+  `getEntitlements()` drops the user because only `active`/`trialing` count.
+  They keep the account and can add a card in the Customer Portal to resume.
+  Use `max_redemptions` / an expiry date on the *promotion code* to limit who
+  can redeem it, rather than a short coupon duration.
+
+Also worth setting: restrict the promotion code to **first-time customers** or a
+specific customer if it's meant for one person — otherwise anyone who learns the
+string can redeem it.
+
 ## Go-live checklist
 
 - [ ] Re-run the setup script with the **live** key; update env with the live
@@ -94,4 +126,5 @@ invoice. Leave `STRIPE_TAX_RATE_ID` unset to charge no tax.
 - Annual billing (default in the UI) = one charge/year instead of twelve, saving
   ~11×$0.30 fixed fees per subscriber/year and reducing the 0.5% Billing-fee
   frequency.
-- Promotion codes are available in Checkout (no extra cost) but off by default.
+- Promotion codes are available in Checkout at no extra cost and are enabled —
+  see [Coupons & promotion codes](#coupons--promotion-codes-incl-100-off--free-forever).
