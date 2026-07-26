@@ -71,35 +71,55 @@ invoice. Leave `STRIPE_TAX_RATE_ID` unset to charge no tax.
 
 ## Coupons & promotion codes (incl. 100% off / free forever)
 
-Checkout always shows a **promotion code** field (`allow_promotion_codes`), so
-you can hand out a code without any code change: Dashboard ▸ Product catalog ▸
-Coupons → create the coupon, then add a promotion code (the customer-facing
-string) to it.
+Create the coupon in Dashboard ▸ Product catalog ▸ Coupons, then add a promotion
+code (the customer-facing string) to it. No code change is needed to hand one
+out.
 
-**A 100%-off code does not ask for card details.** The session is created with
-`payment_method_collection: 'if_required'`, so Checkout skips the payment form
-whenever the amount due today is 0 — the buyer just confirms and the
-subscription is created `active`, the webhook mirrors it, and quota is granted
-exactly like a paid plan. Anyone paying a non-zero total (including tax) still
-enters a card as before.
+**Codes are entered in RoleLogic's own field on the upgrade page — not in
+Checkout.** Checkout is created *without* `allow_promotion_codes`, so it shows no
+promotion-code box at all. That is deliberate and load-bearing:
 
-Two things to get right when creating such a coupon:
+- Stripe omits the card fields only when the total due is **already 0 as the
+  session is created** (`payment_method_collection: 'if_required'`). A code typed
+  into Checkout's own box arrives *after* the session exists, so the card form it
+  was created with never goes away: the discount lands, the total reads $0.00, and
+  it **still demands a card**. Nothing can warn the buyer at that point.
+- So the code is resolved server-side and applied as
+  `discounts[0].promotion_code` while the session is minted (`StripeService` +
+  `stripe-promo.ts`). Offering Stripe's box as well would only give buyers a
+  second, broken place to type it — and the two parameters are mutually exclusive
+  anyway (Stripe rejects a session carrying both), so it cannot be re-added
+  without breaking every coded purchase.
+
+**A 100%-off `forever` code then asks for no card details.** The buyer just
+confirms; the subscription is created `active`, the webhook mirrors it, and quota
+is granted exactly like a paid plan. Anyone paying a non-zero total (including
+tax) still enters a card as before.
+
+Things to get right when creating such a coupon:
 
 - **Set `duration: forever`** if the user should stay free indefinitely, and
   scope the coupon to the plan's price/product so it can't be applied elsewhere.
   A subscription created at $0 has **no payment method on file**; with `forever`
   every renewal invoice is $0 and settles automatically, so it never matters.
-- **A coupon that expires (`once` / `repeating`) will lapse, by design.** The
-  first invoice that actually costs money fails (no card), Stripe flips the
-  subscription to `past_due`, our webhook mirrors that status, and
-  `getEntitlements()` drops the user because only `active`/`trialing` count.
-  They keep the account and can add a card in the Customer Portal to resume.
-  Use `max_redemptions` / an expiry date on the *promotion code* to limit who
-  can redeem it, rather than a short coupon duration.
+- **Only 100% off + `forever` skips the card.** A 100%-off coupon that expires
+  (`once` / `repeating`) deliberately does *not* — the card it would have skipped
+  is exactly what its first paid renewal needs, so those keep collecting one up
+  front. An `amount_off` coupon never qualifies either, even when it happens to
+  equal the plan price: that is a coincidence of today's price, and a price change
+  would strand a customer with no card on file.
+- **A coupon that expires will still lapse if it was redeemed before this
+  behaviour existed.** The first invoice that actually costs money fails (no
+  card), Stripe flips the subscription to `past_due`, our webhook mirrors that
+  status, and `getEntitlements()` drops the user because only `active`/`trialing`
+  count. They keep the account and can add a card in the Customer Portal to
+  resume. Prefer `max_redemptions` / an expiry date on the *promotion code* to
+  limit who can redeem it, rather than a short coupon duration.
 
-Also worth setting: restrict the promotion code to **first-time customers** or a
-specific customer if it's meant for one person — otherwise anyone who learns the
-string can redeem it.
+Limits are Stripe's job, not the app's: it enforces none of its own. Set
+`max_redemptions`, an expiry date, **first-time customers only**, or a specific
+customer on the promotion code — otherwise anyone who learns the string can
+redeem it.
 
 ## Go-live checklist
 
@@ -126,5 +146,6 @@ string can redeem it.
 - Annual billing (default in the UI) = one charge/year instead of twelve, saving
   ~11×$0.30 fixed fees per subscriber/year and reducing the 0.5% Billing-fee
   frequency.
-- Promotion codes are available in Checkout at no extra cost and are enabled —
-  see [Coupons & promotion codes](#coupons--promotion-codes-incl-100-off--free-forever).
+- Promotion codes cost nothing extra and are supported through RoleLogic's own
+  field on the upgrade page — see
+  [Coupons & promotion codes](#coupons--promotion-codes-incl-100-off--free-forever).
