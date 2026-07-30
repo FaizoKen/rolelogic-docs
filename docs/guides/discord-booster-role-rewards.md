@@ -30,7 +30,7 @@ IF Lacks All Roles: Server Booster
 THEN Remove Roles: VIP, Booster Perks, Booster Lounge
 ```
 
-Together, the add and removal rules use both of the free plan's rules.
+Together, the add and removal rules use two of the free plan's three rules.
 
 :::warning[Shared VIP roles]
 Do not remove a shared `VIP` role with this rule if members can earn it in other ways. Use a booster-specific role, or add conditions that protect other qualifying members.

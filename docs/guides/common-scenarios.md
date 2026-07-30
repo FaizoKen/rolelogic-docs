@@ -28,7 +28,7 @@ This guide provides **50+ ready-to-use rule configurations** for popular Discord
 | [Gaming and Clans](#gaming-and-clans)                 | Gaming servers, clan management                       |
 | [Subscription and Premium](#subscription-and-premium) | Patreon, Ko-fi, paid memberships                      |
 | [Color and Cosmetic Roles](#color-and-cosmetic-roles) | Vanity colors, nickname colors                        |
-| [Free Plan Examples](#free-plan-examples-2-rules)     | Complete setups within the free plan's 2 rules        |
+| [Free Plan Examples](#free-plan-examples-3-rules)     | Complete setups within the free plan's 3 rules        |
 
 ### Advanced Scenarios
 
@@ -685,9 +685,9 @@ You can add up to 9 AND conditions and combine Add + Remove actions in one rule.
 
 ---
 
-## Free Plan Examples (2 Rules)
+## Free Plan Examples (3 Rules)
 
-Here are complete setups that fit within the free plan's 2-rule limit. Each of these uses both rules:
+Here are complete setups that fit within the free plan's 3-rule limit. Each of these uses two rules, leaving one slot spare:
 
 ### Setup 1: Verification + Booster Rewards
 
@@ -1299,7 +1299,7 @@ Use the sandbox to verify each rule works as expected before going live.
 
 ### Consider Rule Consolidation
 
-With the free plan's 2-rule limit, look for ways to combine logic:
+With the free plan's 3-rule limit, look for ways to combine logic:
 
 - Use "Has Some Roles" with multiple roles instead of separate rules
 - Combine add AND remove actions in one rule

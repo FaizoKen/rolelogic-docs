@@ -27,7 +27,7 @@ export default function ProductCta({
         ) : (
           <p className={styles.copy}>
             Add RoleLogic, build your first IF-THEN rule, and test it before it
-            changes a member’s roles. The free plan includes 2 rules per server.
+            changes a member’s roles. The free plan includes 3 rules per server.
           </p>
         )}
       </div>

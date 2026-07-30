@@ -1,7 +1,7 @@
 ---
 sidebar_position: 10
 title: RoleLogic Pricing - Free & Premium Plans
-description: RoleLogic includes 2 free rules and integrations per server. Compare plans with up to 210 of each, faster sync, no webhook watermark, and DWEEB benefits.
+description: RoleLogic includes 3 free rules and integrations per server. Compare plans with up to 211 of each, faster sync, no webhook watermark, and DWEEB benefits.
 image: /img/social-preview-og.png
 ---
 
@@ -13,14 +13,14 @@ RoleLogic offers a generous free plan and premium options for servers that need 
 
 | Feature               | Free           | Premium      |
 | --------------------- | -------------- | ------------ |
-| Rules per server      | 2              | Up to 210    |
-| Integrations per server | 2            | Up to 210    |
+| Rules per server      | 3              | Up to 211    |
+| Integrations per server | 3            | Up to 211    |
 | All condition types   | ✅             | ✅           |
 | All action types      | ✅             | ✅           |
 | Testing sandbox       | ✅             | ✅           |
 | Activity log          | ✅             | ✅           |
 | Distinct destination servers | 2             | 10           |
-| Users per role link   | 1,000          | Up to 30 million |
+| Users per role link   | 100            | Up to 30 million |
 | Real-time response    | Within ~5 seconds | Within ~1.5 seconds (3× faster) |
 | Background sync speed  | Every ~10 min  | Every ~2 min (large servers fully catch up far faster) |
 | Webhook notifications | With watermark | No watermark |
@@ -31,8 +31,8 @@ RoleLogic offers a generous free plan and premium options for servers that need 
 
 The free plan includes everything you need to get started:
 
-- **2 rules per server** — enough for a verification cleanup or a booster reward
-- **2 integrations per server** — connect external services to manage roles
+- **3 rules per server** — enough for a verification cleanup, a booster reward, and one more
+- **3 integrations per server** — connect external services to manage roles
 - **All 9 condition types** — full access to every matching option
 - **All action types** — add and remove roles freely
 - **Testing sandbox** — test rules before going live
@@ -45,14 +45,15 @@ The free plan includes everything you need to get started:
 - Small servers testing RoleLogic
 - Basic verification systems
 - Simple booster rewards
-- Servers with 1-2 automation needs
+- Servers with 1-3 automation needs
 
 **Example free plan setup:**
 
 1. Rule 1: "If has Verified → remove Unverified"
 2. Rule 2: "If has Server Booster → add VIP"
+3. Rule 3: "If has none of [Level 5, Level 10] → add Newcomer"
 
-That's a complete verification + booster system using both of your free rules.
+That's a complete verification + booster + newcomer system using all three of your free rules.
 
 ## Premium Plans
 
@@ -62,21 +63,21 @@ Premium plans expand your capacity through a Stripe subscription (monthly or ann
 
 | Tier       | Price     | Additional Slots | Total Rules | Total Integrations | DWEEB Tier Included | Best For                            |
 | ---------- | --------- | ---------------- | ----------- | ------------- | ------------------- | -------------------------------------- |
-| **Tier 1** | $2.00/mo  | +10              | 12          | 12            | —                   | Small servers with moderate needs      |
-| **Tier 2** | $5.00/mo  | +36              | 38          | 38            | DWEEB Plus          | Growing servers with complex setups    |
-| **Tier 3** | $7.00/mo  | +74              | 76          | 76            | DWEEB Plus          | Large servers with tier systems        |
-| **Tier 4** | $10.00/mo | +130             | 132         | 132           | DWEEB Pro           | Very active servers with many features |
-| **Tier 5** | $14.00/mo | +208             | 210         | 210           | DWEEB Pro           | Enterprise/network-level automation    |
+| **Tier 1** | $2.00/mo  | +10              | 13          | 13            | —                   | Small servers with moderate needs      |
+| **Tier 2** | $5.00/mo  | +36              | 39          | 39            | DWEEB Plus          | Growing servers with complex setups    |
+| **Tier 3** | $7.00/mo  | +74              | 77          | 77            | DWEEB Plus          | Large servers with tier systems        |
+| **Tier 4** | $10.00/mo | +130             | 133         | 133           | DWEEB Pro           | Very active servers with many features |
+| **Tier 5** | $14.00/mo | +208             | 211         | 211           | DWEEB Pro           | Enterprise/network-level automation    |
 
 ### Premium Benefits
 
-- **More rules** — Up to 210 per server
-- **More integrations** — Up to 210 per server
+- **More rules** — Up to 211 per server
+- **More integrations** — Up to 211 per server
 - **Faster background sync** — Premium servers are re-checked about every 2 minutes instead of every 10, and each pass scans far more members. Large servers fully reconcile dramatically faster — a 100,000-member server catches up in roughly 10 minutes on premium versus a few hours on free. Event-driven role changes are evaluated in about 1.5 seconds on Premium versus 5 seconds on Free; the periodic safety sweep catches anything missed.
 - **No watermark** — Clean webhook notifications
 - **Priority support** — Faster response times
 - **Expanded cross-server sync** — 10 distinct destination servers per server (vs. 2 on free)
-- **Higher role link capacity** — Up to 30 million users per role link (vs. 1,000 per link on free)
+- **Higher role link capacity** — Up to 30 million users per role link (vs. 100 per link on free)
 - **Faster real-time response** — When a member's roles change, Premium servers run the rule engine in about 1.5 seconds instead of about 5 seconds. Cascading edits (rule A triggers rule B triggers rule C) feel snappier, while both plans still coalesce bursty edits safely
 - **DWEEB Premium included** — Tier 2 and up also unlocks premium in [DWEEB](https://dweeb.faizo.net), our visual Discord webhook message builder (see below)
 
@@ -140,10 +141,10 @@ Premium quota is allocated per server and applies to both rules and integrations
 - Each server has its own rule and integration limit
 - The same quota increases both your rule limit and integration limit
 
-**Example:** With Tier 2 (38 total), you could:
+**Example:** With Tier 2 (39 total), you could:
 
-- Give one server all 38 rules + 38 integrations, OR
-- Split the 36 paid slots between two servers. Each server keeps its 2 free slots and receives the paid slots assigned to it.
+- Give one server all 39 rules + 39 integrations, OR
+- Split the 36 paid slots between two servers. Each server keeps its 3 free slots and receives the paid slots assigned to it.
 
 ### Quota Cooldown
 
@@ -153,7 +154,7 @@ After assigning quota to a server, there's a **7-day cooldown** before you can r
 
 In the dashboard, you'll see:
 
-- **Rule quota:** "Rule Quota: 5 / 38"
+- **Rule quota:** "Rule Quota: 5 / 39"
 - **Integration quota:** The dashboard's integration quota usage and limit
 - **Quota allocation:** Which servers have what
 
@@ -166,7 +167,7 @@ When you downgrade to a lower tier or cancel:
 - **Cross-server rules beyond the free limit are paused** — Highest-priority rules covering up to 2 distinct destination servers stay active; the rest are paused alongside any over-quota rules
 - **Automatic reactivation on upgrade** — If you upgrade again, paused items come back
 
-**Example:** If you have 30 rules and downgrade to Tier 1 (12 slots), 18 rules are paused but preserved. The same applies to integrations. Upgrade back, and all 30 reactivate.
+**Example:** If you have 30 rules and downgrade to Tier 1 (13 slots), 17 rules are paused but preserved. The same applies to integrations. Upgrade back, and all 30 reactivate.
 
 **Cross-server example:** Your Premium server syncs to 7 other servers. If Premium lapses, RoleLogic keeps the two highest-priority cross-server rules running and pauses the rest. Nothing is deleted — re-subscribing restores full reach, or you can edit/delete the paused rules to clean up.
 
@@ -204,13 +205,13 @@ Payments are processed securely through Stripe (credit/debit cards and local pay
 
 ### Is there a free trial?
 
-The free plan (2 rules) serves as your trial. No time limit.
+The free plan (3 rules) serves as your trial. No time limit.
 
 ### Can I share premium across servers?
 
 Yes. Assign your quota across multiple servers as needed.
 
-### What if I need more than 210 rules?
+### What if I need more than 211 rules?
 
 Contact support for custom enterprise plans.
 
