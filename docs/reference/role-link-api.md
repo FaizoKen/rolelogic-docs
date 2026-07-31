@@ -496,10 +496,23 @@ Notes:
 Your iframe response must allow the RoleLogic dashboard to embed it. Set the `Content-Security-Policy` header on the response that serves `embed_url`:
 
 ```
-Content-Security-Policy: frame-ancestors https://app.rolelogic.com
+Content-Security-Policy: frame-ancestors https://rolelogic.faizo.net
 ```
 
 Do **not** send `X-Frame-Options: DENY` or `SAMEORIGIN` — those headers will block embedding.
+
+If you are developing against a dashboard running locally, that is a different
+origin and must be listed too — `frame-ancestors` takes origins (scheme, host,
+port), so the production host alone will not cover it:
+
+```
+Content-Security-Policy: frame-ancestors https://rolelogic.faizo.net http://localhost:5173
+```
+
+`http://localhost:5173` is the Vite dev server's default; use whichever origin
+your dashboard is actually served from. Serve the permissive header only in
+development — shipping a `localhost` entry to production lets any page on the
+developer's own machine frame your plugin.
 
 ### Sandbox
 
@@ -538,7 +551,7 @@ app.get("/configure", (req, res) => {
     return;
   }
 
-  res.set("Content-Security-Policy", "frame-ancestors https://app.rolelogic.com");
+  res.set("Content-Security-Policy", "frame-ancestors https://rolelogic.faizo.net");
   res.send(`<!doctype html>
     <html><body>
       <h1>Configure ${claims.guild_id} / ${claims.role_id}</h1>
