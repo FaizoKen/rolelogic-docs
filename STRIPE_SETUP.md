@@ -121,6 +121,38 @@ Limits are Stripe's job, not the app's: it enforces none of its own. Set
 customer on the promotion code — otherwise anyone who learns the string can
 redeem it.
 
+### Advertised campaigns (auto-applied codes)
+
+A code can also be *promoted on the upgrade page* rather than handed out
+privately. The page then shows the discounted price on the eligible plan cards
+and passes the code to Checkout itself — buyers never type it, which is the
+point: the price they read is the price they get.
+
+Two places define one campaign, and they must agree:
+
+| Where | What it holds |
+| --- | --- |
+| `api/src/scripts/stripe-setup.ts` → `PROMOS` | The real coupon + promotion code in Stripe (percent, duration, which product it is scoped to). Idempotent — re-running reuses them. |
+| `web/src/lib/Utils/promo.ts` → `ACTIVE_PROMO` | What the page advertises (code, percent, plan names, duration, optional `endsAt`). |
+
+If they drift, the page advertises a price Stripe refuses, and the buyer gets an
+error instead of a subscription — the auto-applied code deliberately fails loudly
+rather than falling back to list price, because charging double what the card
+showed is the worse outcome. To end a campaign, set `ACTIVE_PROMO` to `null` (and
+deactivate the promotion code in Stripe so links out in the wild stop working).
+
+Coupon fields are immutable, so a campaign whose numbers change needs a **new
+`key`** in `PROMOS`; the old coupon stays alive on purpose, keeping the discount
+for everyone already subscribed on it.
+
+Currently live: **`MEDIUMPROMO`** — 50% off the Medium plan (monthly and annual),
+`duration: once`, scoped to the Medium product so it cannot be redeemed on
+another tier. Because it is one-time, the page prints the renewal price next to
+the discounted one and calls the discount out as one-off; a `once` coupon
+advertised as if it recurred would promise a price that lapses on the second
+invoice. That pairing is what `ACTIVE_PROMO.duration` controls — `'first-payment'`
+for `once`/`repeating` coupons, `'forever'` only for `duration: forever` ones.
+
 ## Go-live checklist
 
 - [ ] Re-run the setup script with the **live** key; update env with the live
