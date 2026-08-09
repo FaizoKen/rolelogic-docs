@@ -28,7 +28,7 @@ import StructuredData from '@site/src/components/Seo/StructuredData';
     '@type': 'Offer',
     price: '0',
     priceCurrency: 'USD',
-    description: 'Free plan with 3 rules and 3 integrations per server',
+    description: 'Free plan with 2 rules and 2 integrations per server',
     url: 'https://rolelogic.faizo.net/upgrade',
   },
   featureList: [
@@ -41,7 +41,7 @@ import StructuredData from '@site/src/components/Seo/StructuredData';
   ],
 }} />
 
-**TL;DR:** RoleLogic is a free Discord bot that adds or removes roles based on the roles a member already has. Build no-code IF-THEN rules, test them safely, and keep them running automatically. The free plan includes 3 rules per server; paid plans support up to 211.
+**TL;DR:** RoleLogic is a free Discord bot that adds or removes roles based on the roles a member already has. Build no-code IF-THEN rules, test them safely, and keep them running automatically. The free plan includes 2 rules per server; paid plans support up to 210.
 
 ---
 
@@ -91,13 +91,13 @@ role](https://rolelogic.faizo.net/discord-conditional-roles).
 
 RoleLogic is free to use:
 
-- **3 rules per server** — enough for a basic setup
+- **2 rules per server** — enough for a basic setup
 - **All 9 condition types, add/remove actions, sandbox testing, and activity logs** — core rule-building tools are included
 - **Cross-server sync to 2 distinct destination servers** — Premium expands this to 10
 - **Testing sandbox** — test before going live
 - **Full activity logging** — track all changes
 
-Need more capacity? [Premium plans](./plans) offer up to 211 rules and integrations per server.
+Need more capacity? [Premium plans](./plans) offer up to 210 rules and integrations per server.
 
 ## Common Use Cases
 

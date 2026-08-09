@@ -18,7 +18,7 @@ import StructuredData from '@site/src/components/Seo/StructuredData';
       name: 'Is RoleLogic free?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Yes. The free plan includes 3 rules and 3 integrations per server, all condition and action types, the testing sandbox, activity history, and cross-server sync to 2 destination servers.',
+        text: 'Yes. The free plan includes 2 rules and 2 integrations per server, all condition and action types, the testing sandbox, activity history, and cross-server sync to 2 destination servers.',
       },
     },
     {
@@ -34,7 +34,7 @@ import StructuredData from '@site/src/components/Seo/StructuredData';
       name: 'How many RoleLogic rules can I create?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'The free plan includes 3 rules per server. Paid quota is added to those 3 base slots, for plan totals from 13 to 211 rules per server.',
+        text: 'The free plan includes 2 rules per server. Paid quota is added to those 2 base slots, for plan totals from 12 to 210 rules per server.',
       },
     },
     {
@@ -60,8 +60,8 @@ RoleLogic is a Discord bot that automatically manages roles. You create IF-THEN 
 
 Yes. The free plan includes:
 
-- 3 rules per server
-- 3 integrations per server
+- 2 rules per server
+- 2 integrations per server
 - All 9 condition types, add/remove actions, sandbox testing, and activity logs
 - Cross-server sync to 2 distinct destination servers (Premium expands this to 10)
 
@@ -86,8 +86,8 @@ current details.
 
 ### How many rules can I create?
 
-- **Free:** 3 rules per server
-- **Premium:** Paid quota is added to the 3 base slots, for plan totals from 13 to 211 rules per server
+- **Free:** 2 rules per server
+- **Premium:** Paid quota is added to the 2 base slots, for plan totals from 12 to 210 rules per server
 
 See [Plans & Pricing](./plans) for tier details.
 

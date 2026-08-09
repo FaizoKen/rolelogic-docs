@@ -16,7 +16,7 @@ RoleLogic does not perform the identity or CAPTCHA check itself. It reacts to th
 
 ## The Recommended Verification Rule
 
-This setup uses one of the free plan's three rules.
+This setup uses one of the free plan's two rules.
 
 ```text
 IF Has Some Roles: Verified

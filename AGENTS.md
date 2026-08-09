@@ -3,8 +3,8 @@
 - In user-facing copy, call external service connections **integrations**. Reserve
   **plugin** for the developer Plugin API, internal compatibility names, and
   historical release notes.
-- As of 2026-07-30, the deployed base quota is 3 rules and 3 integrations per
-  server. Paid slot allocations produce totals of 13, 39, 77, 133, and 211.
+- As of 2026-07-30, the deployed base quota is 2 rules and 2 integrations per
+  server. Paid slot allocations produce totals of 12, 38, 76, 132, and 210.
   Cross-server destination limits are 2 on free and 10 on paid plans.
 - A Role Link supports 100 users on Free and up to 30 million on Premium per
   individual link. Event-driven rule processing is about 5 seconds on Free and
