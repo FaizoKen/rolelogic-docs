@@ -20,9 +20,9 @@ RoleLogic offers a generous free plan and premium options for servers that need 
 | Testing sandbox       | ✅             | ✅           |
 | Activity log          | ✅             | ✅           |
 | Distinct destination servers | 2             | 10           |
-| Users per role link   | 100            | Up to 30 million |
-| Real-time response    | Within ~5 seconds | Within ~1.5 seconds (3× faster) |
-| Background sync speed  | Every ~10 min  | Every ~2 min (large servers fully catch up far faster) |
+| Users per role link   | 100 synced (extras held, not lost) | Up to 30 million |
+| Real-time response    | Within ~10 seconds | Within ~1.5 seconds (6× faster) |
+| Background sync speed  | Every ~30 min  | Every ~2 min (large servers fully catch up far faster) |
 | Webhook notifications | With watermark | No watermark |
 | [DWEEB Premium](https://dweeb.faizo.net) (webhook builder) | — | Plus ($5+ plans) or Pro ($10+ plans) included |
 | Support               | Community      | Priority     |
@@ -38,7 +38,7 @@ The free plan includes everything you need to get started:
 - **Testing sandbox** — test rules before going live
 - **Activity log** — track all configuration changes
 - **Cross-server sync to 2 distinct destination servers** — connect a small network (upgrade to Premium for up to 10)
-- **Real-time response within ~5 seconds** — role changes are evaluated within a few seconds, with a background safety sync about every 10 minutes to catch anything missed
+- **Real-time response within ~10 seconds** — role changes are evaluated within seconds, with a background safety sync about every 30 minutes to catch anything missed
 
 **Perfect for:**
 
@@ -72,12 +72,12 @@ Premium plans expand your capacity through a Stripe subscription (monthly or ann
 
 - **More rules** — Up to 210 per server
 - **More integrations** — Up to 210 per server
-- **Faster background sync** — Premium servers are re-checked about every 2 minutes instead of every 10, and each pass scans far more members. Large servers fully reconcile dramatically faster — a 100,000-member server catches up in roughly 10 minutes on premium versus a few hours on free. Event-driven role changes are evaluated in about 1.5 seconds on Premium versus 5 seconds on Free; the periodic safety sweep catches anything missed.
+- **Faster background sync** — Premium servers are re-checked about every 2 minutes instead of every 30, and each pass scans far more members. Large servers fully reconcile dramatically faster — a 100,000-member server catches up in roughly 10 minutes on premium versus about 10 hours on free. Event-driven role changes are evaluated in about 1.5 seconds on Premium versus 10 seconds on Free; the periodic safety sweep catches anything missed.
 - **No watermark** — Clean webhook notifications
 - **Priority support** — Faster response times
 - **Expanded cross-server sync** — 10 distinct destination servers per server (vs. 2 on free)
-- **Higher role link capacity** — Up to 30 million users per role link (vs. 100 per link on free)
-- **Faster real-time response** — When a member's roles change, Premium servers run the rule engine in about 1.5 seconds instead of about 5 seconds. Cascading edits (rule A triggers rule B triggers rule C) feel snappier, while both plans still coalesce bursty edits safely
+- **Higher role link capacity** — Up to 30 million users per role link (vs. 100 per link on free). Users an integration qualified while you were on free are held, not discarded, so they receive their role the moment you upgrade — no re-upload needed
+- **Faster real-time response** — When a member's roles change, Premium servers run the rule engine in about 1.5 seconds instead of about 10 seconds. Cascading edits (rule A triggers rule B triggers rule C) feel snappier, while both plans still coalesce bursty edits safely
 - **DWEEB Premium included** — Tier 2 and up also unlocks premium in [DWEEB](https://dweeb.faizo.net), our visual Discord webhook message builder (see below)
 
 ### DWEEB Premium Included

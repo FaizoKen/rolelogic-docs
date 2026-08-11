@@ -17,7 +17,7 @@ Here's a summary of the most important limits:
 | ------------------------- | ------------ | ---------------------- |
 | Rules per server (free)   | Default      | 2 rules                |
 | Integrations per server (free) | Default  | 2 integrations         |
-| Users per role link (free) | Default     | 100 users              |
+| Users per role link (free) | Synced      | 100 users (rest held)  |
 | Conditions per rule       | Maximum      | 10 (1 primary + 9 AND) |
 | Actions per rule          | Maximum      | 2 (add + remove)       |
 | Roles per action          | Maximum      | 250 roles              |
@@ -87,15 +87,15 @@ This prevents infinite loops from misconfigured rules. If your rules require mor
 | Process                      | Timing                                      |
 | ---------------------------- | ------------------------------------------- |
 | Event-driven processing      | Triggered automatically by role changes    |
-| Debounce delay               | Free: ~5 sec · Premium: ~1.5 sec            |
-| Scheduled sync interval      | Free: ~every 10 min · Premium: ~every 2 min |
+| Debounce delay               | Free: ~10 sec · Premium: ~1.5 sec            |
+| Scheduled sync interval      | Free: ~every 30 min · Premium: ~every 2 min |
 | Rule activation after update | Within 1 hour                               |
 
 **What these mean:**
 
 - **Event-driven processing**: When a member's roles change, RoleLogic queues the member for evaluation automatically.
-- **Debounce delay**: Multiple rapid role changes are batched for about 5 seconds on Free and 1.5 seconds on Premium to avoid redundant work.
-- **Scheduled sync**: A background safety sweep re-checks the whole server to catch any changes missed in real time (e.g. during a restart or Discord outage). On **free** it runs about every 10 minutes; on **premium** about every 2 minutes, and each premium pass scans far more members per cycle. For large servers this means premium fully reconciles dramatically faster — a 100,000-member server catches up in roughly 10 minutes on premium versus a few hours on free. Both plans stay safely within Discord's rate limits.
+- **Debounce delay**: Multiple rapid role changes are batched for about 10 seconds on Free and 1.5 seconds on Premium to avoid redundant work.
+- **Scheduled sync**: A background safety sweep re-checks the whole server to catch any changes missed in real time (e.g. during a restart or Discord outage). On **free** it runs about every 30 minutes; on **premium** about every 2 minutes, and each premium pass scans far more members per cycle. For large servers this means premium fully reconciles dramatically faster — a 100,000-member server catches up in roughly 10 minutes on premium versus about 10 hours on free. Both plans stay safely within Discord's rate limits.
 - **Rule activation**: New or updated rules are fully active within 1 hour of saving
 
 ---
@@ -110,13 +110,15 @@ Quotas determine how many rules and integrations you can use per server. The sam
 | ----------------------- | ----------------------------------- |
 | Rules per server        | 2 rules                             |
 | Integrations per server | 2 integrations                      |
-| Users per role link     | 100 users per individual link       |
+| Users per role link     | 100 synced per link (up to 10,000 stored and held) |
 | Cross-server sync       | Up to 2 destination servers         |
 | Webhook watermark       | Included (shows RoleLogic branding) |
 | All condition types     | ✅ Full access                      |
 | All action types        | ✅ Full access                      |
 | Testing sandbox         | ✅ Full access                      |
 | Activity log            | ✅ Full access                      |
+
+**About held role-link users:** a free role link syncs its lowest 100 user IDs. If an integration qualifies more people than that, the extras are stored and held rather than dropped — the link keeps working for the 100 it syncs, and the held users receive their role automatically the moment you upgrade, with no re-upload and no action from the integration. Which users are held is decided by user ID, so the synced set does not rotate between syncs.
 
 The free plan includes everything you need to get started. It's perfect for:
 
@@ -132,7 +134,7 @@ Premium plans expand your capacity. The same quota applies to both rules and int
 | -------------------- | ------------------------------------------------------------ |
 | Rules per server     | +10 to +208 additional rules (varies by tier)                |
 | Integrations per server | +10 to +208 additional integrations (same quota as rules) |
-| Users per role link  | Up to 30 million per link (vs. 100 on free)                  |
+| Users per role link  | Up to 30 million per link (vs. 100 on free) — any users held on free start syncing immediately |
 | Cross-server sync    | Up to 10 destination servers per server (vs. 2 on free)      |
 | Webhook watermark    | Removed for clean notifications                              |
 | Priority support     | Faster response times                                        |
@@ -200,7 +202,7 @@ For large servers:
 - Initial sync may take longer when first setting up
 - Individual changes use the event-driven path and the tier-specific debounce
 - Batch operations (like rule changes affecting many members) are processed efficiently
-- **Premium significantly shortens full-server reconcile time** — large servers are swept more frequently and with more members per pass, so a full catch-up that takes a few hours on free completes in minutes on premium
+- **Premium significantly shortens full-server reconcile time** — large servers are swept more frequently and with more members per pass, so a full catch-up that takes about 10 hours on free (100,000 members) completes in minutes on premium
 
 ---
 

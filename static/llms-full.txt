@@ -221,7 +221,7 @@ This verifies your rule works without affecting real members.
 Your rule is now active. RoleLogic will:
 
 - **Scan continuously** — checking all members 24/7
-- **React within seconds** — role changes are evaluated in about 5 seconds on Free or 1.5 seconds on Premium
+- **React within seconds** — role changes are evaluated in about 10 seconds on Free or 1.5 seconds on Premium
 
 Use webhook logs to monitor member role changes. The **Activity Log** records edits to rules and other configuration.
 
@@ -358,7 +358,7 @@ This creates powerful automation chains.
 
 ### Background Sync
 
-RoleLogic also runs a continuous background scan to catch changes missed by event-driven processing. It runs about every 10 minutes on Free servers and about every 2 minutes on Premium servers, with Premium also scanning large servers far faster per pass. Event-driven rule processing takes about 5 seconds on Free or 1.5 seconds on Premium; the sweep is a safety net.
+RoleLogic also runs a continuous background scan to catch changes missed by event-driven processing. It runs about every 30 minutes on Free servers and about every 2 minutes on Premium servers, with Premium also scanning large servers far faster per pass. Event-driven rule processing takes about 10 seconds on Free or 1.5 seconds on Premium; the sweep is a safety net.
 
 ## Creating a Rule
 
@@ -1663,8 +1663,8 @@ Use [webhook notifications](https://rolelogic.faizo.net/docs/features/webhooks-l
 ## 6. Check Processing Timing
 
 Role changes trigger evaluation automatically. Rapid changes are grouped for
-about 5 seconds on Free and 1.5 seconds on Premium. The background safety sweep
-runs about every 10 minutes on Free and every 2 minutes on Premium.
+about 10 seconds on Free and 1.5 seconds on Premium. The background safety sweep
+runs about every 30 minutes on Free and every 2 minutes on Premium.
 
 New or updated rules can take up to one hour to activate through the scheduled path; use the play control to start one immediately.
 
@@ -3434,9 +3434,9 @@ RoleLogic offers a generous free plan and premium options for servers that need 
 | Testing sandbox       | ✅             | ✅           |
 | Activity log          | ✅             | ✅           |
 | Distinct destination servers | 2             | 10           |
-| Users per role link   | 100            | Up to 30 million |
-| Real-time response    | Within ~5 seconds | Within ~1.5 seconds (3× faster) |
-| Background sync speed  | Every ~10 min  | Every ~2 min (large servers fully catch up far faster) |
+| Users per role link   | 100 synced (extras held, not lost) | Up to 30 million |
+| Real-time response    | Within ~10 seconds | Within ~1.5 seconds (6× faster) |
+| Background sync speed  | Every ~30 min  | Every ~2 min (large servers fully catch up far faster) |
 | Webhook notifications | With watermark | No watermark |
 | [DWEEB Premium](https://dweeb.faizo.net) (webhook builder) | — | Plus ($5+ plans) or Pro ($10+ plans) included |
 | Support               | Community      | Priority     |
@@ -3452,7 +3452,7 @@ The free plan includes everything you need to get started:
 - **Testing sandbox** — test rules before going live
 - **Activity log** — track all configuration changes
 - **Cross-server sync to 2 distinct destination servers** — connect a small network (upgrade to Premium for up to 10)
-- **Real-time response within ~5 seconds** — role changes are evaluated within a few seconds, with a background safety sync about every 10 minutes to catch anything missed
+- **Real-time response within ~10 seconds** — role changes are evaluated within seconds, with a background safety sync about every 30 minutes to catch anything missed
 
 **Perfect for:**
 
@@ -3486,12 +3486,12 @@ Premium plans expand your capacity through a Stripe subscription (monthly or ann
 
 - **More rules** — Up to 210 per server
 - **More integrations** — Up to 210 per server
-- **Faster background sync** — Premium servers are re-checked about every 2 minutes instead of every 10, and each pass scans far more members. Large servers fully reconcile dramatically faster — a 100,000-member server catches up in roughly 10 minutes on premium versus a few hours on free. Event-driven role changes are evaluated in about 1.5 seconds on Premium versus 5 seconds on Free; the periodic safety sweep catches anything missed.
+- **Faster background sync** — Premium servers are re-checked about every 2 minutes instead of every 30, and each pass scans far more members. Large servers fully reconcile dramatically faster — a 100,000-member server catches up in roughly 10 minutes on premium versus about 10 hours on free. Event-driven role changes are evaluated in about 1.5 seconds on Premium versus 10 seconds on Free; the periodic safety sweep catches anything missed.
 - **No watermark** — Clean webhook notifications
 - **Priority support** — Faster response times
 - **Expanded cross-server sync** — 10 distinct destination servers per server (vs. 2 on free)
-- **Higher role link capacity** — Up to 30 million users per role link (vs. 100 per link on free)
-- **Faster real-time response** — When a member's roles change, Premium servers run the rule engine in about 1.5 seconds instead of about 5 seconds. Cascading edits (rule A triggers rule B triggers rule C) feel snappier, while both plans still coalesce bursty edits safely
+- **Higher role link capacity** — Up to 30 million users per role link (vs. 100 per link on free). Users an integration qualified while you were on free are held, not discarded, so they receive their role the moment you upgrade — no re-upload needed
+- **Faster real-time response** — When a member's roles change, Premium servers run the rule engine in about 1.5 seconds instead of about 10 seconds. Cascading edits (rule A triggers rule B triggers rule C) feel snappier, while both plans still coalesce bursty edits safely
 - **DWEEB Premium included** — Tier 2 and up also unlocks premium in [DWEEB](https://dweeb.faizo.net), our visual Discord webhook message builder (see below)
 
 ### DWEEB Premium Included
@@ -3736,8 +3736,8 @@ Yes. Use "Add Combined Action" to add some roles AND remove others in one rule.
 ### How quickly do changes happen?
 
 - **Event-driven:** A role change starts evaluation automatically.
-- **Debounce:** Bursty changes are grouped for about 5 seconds on Free and 1.5 seconds on Premium.
-- **Background sync:** A safety sweep catches anything missed in real time — about every 10 minutes on Free and every 2 minutes on Premium. Premium also scans more members per cycle.
+- **Debounce:** Bursty changes are grouped for about 10 seconds on Free and 1.5 seconds on Premium.
+- **Background sync:** A safety sweep catches anything missed in real time — about every 30 minutes on Free and every 2 minutes on Premium. Premium also scans more members per cycle.
 
 ---
 
@@ -3817,7 +3817,7 @@ Check in order:
 
 Normal delays:
 
-- Role-change debounce: about 5 seconds on Free or 1.5 seconds on Premium
+- Role-change debounce: about 10 seconds on Free or 1.5 seconds on Premium
 - New rule activation: up to 1 hour for full propagation
 
 For longer delays, check [Discord status](https://status.discord.com).
@@ -4280,7 +4280,7 @@ Limits on how many rules and resources you can use. Free plans have base quotas;
 
 ### Real-Time Processing
 
-RoleLogic's ability to evaluate and execute rules when member roles change, typically within about 5 seconds on Free or 1.5 seconds on Premium. A background safety sync runs about every 10 minutes on Free and every 2 minutes on Premium to catch missed changes.
+RoleLogic's ability to evaluate and execute rules when member roles change, typically within about 10 seconds on Free or 1.5 seconds on Premium. A background safety sync runs about every 30 minutes on Free and every 2 minutes on Premium to catch missed changes.
 
 ### Role
 
@@ -5063,7 +5063,7 @@ Here's a summary of the most important limits:
 | ------------------------- | ------------ | ---------------------- |
 | Rules per server (free)   | Default      | 2 rules                |
 | Integrations per server (free) | Default  | 2 integrations         |
-| Users per role link (free) | Default     | 100 users              |
+| Users per role link (free) | Synced      | 100 users (rest held)  |
 | Conditions per rule       | Maximum      | 10 (1 primary + 9 AND) |
 | Actions per rule          | Maximum      | 2 (add + remove)       |
 | Roles per action          | Maximum      | 250 roles              |
@@ -5133,15 +5133,15 @@ This prevents infinite loops from misconfigured rules. If your rules require mor
 | Process                      | Timing                                      |
 | ---------------------------- | ------------------------------------------- |
 | Event-driven processing      | Triggered automatically by role changes    |
-| Debounce delay               | Free: ~5 sec · Premium: ~1.5 sec            |
-| Scheduled sync interval      | Free: ~every 10 min · Premium: ~every 2 min |
+| Debounce delay               | Free: ~10 sec · Premium: ~1.5 sec            |
+| Scheduled sync interval      | Free: ~every 30 min · Premium: ~every 2 min |
 | Rule activation after update | Within 1 hour                               |
 
 **What these mean:**
 
 - **Event-driven processing**: When a member's roles change, RoleLogic queues the member for evaluation automatically.
-- **Debounce delay**: Multiple rapid role changes are batched for about 5 seconds on Free and 1.5 seconds on Premium to avoid redundant work.
-- **Scheduled sync**: A background safety sweep re-checks the whole server to catch any changes missed in real time (e.g. during a restart or Discord outage). On **free** it runs about every 10 minutes; on **premium** about every 2 minutes, and each premium pass scans far more members per cycle. For large servers this means premium fully reconciles dramatically faster — a 100,000-member server catches up in roughly 10 minutes on premium versus a few hours on free. Both plans stay safely within Discord's rate limits.
+- **Debounce delay**: Multiple rapid role changes are batched for about 10 seconds on Free and 1.5 seconds on Premium to avoid redundant work.
+- **Scheduled sync**: A background safety sweep re-checks the whole server to catch any changes missed in real time (e.g. during a restart or Discord outage). On **free** it runs about every 30 minutes; on **premium** about every 2 minutes, and each premium pass scans far more members per cycle. For large servers this means premium fully reconciles dramatically faster — a 100,000-member server catches up in roughly 10 minutes on premium versus about 10 hours on free. Both plans stay safely within Discord's rate limits.
 - **Rule activation**: New or updated rules are fully active within 1 hour of saving
 
 ---
@@ -5156,13 +5156,15 @@ Quotas determine how many rules and integrations you can use per server. The sam
 | ----------------------- | ----------------------------------- |
 | Rules per server        | 2 rules                             |
 | Integrations per server | 2 integrations                      |
-| Users per role link     | 100 users per individual link       |
+| Users per role link     | 100 synced per link (up to 10,000 stored and held) |
 | Cross-server sync       | Up to 2 destination servers         |
 | Webhook watermark       | Included (shows RoleLogic branding) |
 | All condition types     | ✅ Full access                      |
 | All action types        | ✅ Full access                      |
 | Testing sandbox         | ✅ Full access                      |
 | Activity log            | ✅ Full access                      |
+
+**About held role-link users:** a free role link syncs its lowest 100 user IDs. If an integration qualifies more people than that, the extras are stored and held rather than dropped — the link keeps working for the 100 it syncs, and the held users receive their role automatically the moment you upgrade, with no re-upload and no action from the integration. Which users are held is decided by user ID, so the synced set does not rotate between syncs.
 
 The free plan includes everything you need to get started. It's perfect for:
 
@@ -5178,7 +5180,7 @@ Premium plans expand your capacity. The same quota applies to both rules and int
 | -------------------- | ------------------------------------------------------------ |
 | Rules per server     | +10 to +208 additional rules (varies by tier)                |
 | Integrations per server | +10 to +208 additional integrations (same quota as rules) |
-| Users per role link  | Up to 30 million per link (vs. 100 on free)                  |
+| Users per role link  | Up to 30 million per link (vs. 100 on free) — any users held on free start syncing immediately |
 | Cross-server sync    | Up to 10 destination servers per server (vs. 2 on free)      |
 | Webhook watermark    | Removed for clean notifications                              |
 | Priority support     | Faster response times                                        |
@@ -5246,7 +5248,7 @@ For large servers:
 - Initial sync may take longer when first setting up
 - Individual changes use the event-driven path and the tier-specific debounce
 - Batch operations (like rule changes affecting many members) are processed efficiently
-- **Premium significantly shortens full-server reconcile time** — large servers are swept more frequently and with more members per pass, so a full catch-up that takes a few hours on free completes in minutes on premium
+- **Premium significantly shortens full-server reconcile time** — large servers are swept more frequently and with more members per pass, so a full catch-up that takes about 10 hours on free (100,000 members) completes in minutes on premium
 
 ---
 
@@ -6834,7 +6836,7 @@ DELETE /api/role-link/:guildId/:roleId/users/:userId
 
 When you modify the user list (Add, Remove, or Replace), RoleLogic automatically notifies the bot to sync role assignments on Discord. Changes typically apply within seconds, provided the user count is within the allowed limit.
 
-If the stored user count exceeds the allowed limit (e.g., after a plan downgrade), the bot **stops syncing** the role link entirely until the count is reduced.
+If the stored user count exceeds the plan's **sync limit** (e.g., after a plan downgrade), the link keeps working: the bot syncs the lowest `sync limit` user IDs and **holds** the rest. Held users are stored, not discarded — they are simply not assigned the role yet, and they activate automatically the moment the server upgrades, with no re-upload. Which users are held is decided by user ID order, so the synced set stays the same between syncs rather than rotating.
 
 If the server has **more role links than its plan's integration slots** (e.g., after a plan downgrade), the newest links beyond the allowance are **paused**: the dashboard shows "Integration paused", the bot stops syncing them, and every User Management API call for them returns a `403` error until the server upgrades or deletes other role links. Pausing is fully reversible — the stored user list is kept, and syncing resumes automatically once the link is back within the slot allowance.
 
@@ -6844,13 +6846,16 @@ If the server has **more role links than its plan's integration slots** (e.g., a
 
 | Resource                              | Free Plan | Premium    |
 | ------------------------------------- | --------- | ---------- |
-| Users per role link                   | 100       | 30,000,000 |
+| Users **synced** per role link        | 100       | 30,000,000 |
+| Users **stored** per role link        | 10,000    | 30,000,000 |
 | Role links per server                 | 2         | Up to 210  |
-| Users per single `PUT /users` request | 100       | 100,000    |
+| Users per single `PUT /users` request | 10,000    | 100,000    |
 | Users per chunk in a chunked upload   | —         | 100,000    |
 | Chunked upload session TTL            | —         | 24 hours   |
 
-- Exceeding the per-role-link user limit on **Add User**, **Replace Users**, or **Commit Upload** returns a `400` error with a message indicating the maximum allowed.
+- **Synced vs. stored.** On the free plan these differ deliberately. Writes are accepted up to the *stored* limit, and the lowest 100 user IDs are the ones actually given the role; the remainder are held (see [Role Sync Behavior](#role-sync-behavior)). Keep sending your full qualifying set — the overflow activates on upgrade without another upload. On premium the two limits are identical, so nothing is ever held.
+- `GET /users` reports the split as `synced_count` and `pending_count`, alongside `synced_limit` (what is acted on) and `user_limit` (what a write may contain).
+- Exceeding the **stored** limit on **Add User**, **Replace Users**, or **Commit Upload** returns a `400` error with a message indicating the maximum allowed. Exceeding only the *sync* limit is not an error.
 - Role links beyond the server's slot count (e.g. after a downgrade) are **paused**: the bot stops syncing them and all User Management API calls for them return a `403` error (see [Role Sync Behavior](#role-sync-behavior)).
 - The error message includes a hint to upgrade if on the free plan.
 - Use the [chunked upload flow](#upload-users-chunked) for any list larger than 100,000 users — a single `PUT /users` with more than 100,000 IDs is rejected.
@@ -7245,11 +7250,13 @@ Yes. Adding a user who already exists returns `added: false` (no error). Removin
 
 ### What is the user limit?
 
-Free plan: 100 users per role link. Premium: up to 30,000,000 users per role link. The user limit applies per individual role link, not per server. The number of role links shares the server's integration quota: 2 free plus any paid slots assigned to that server.
+Free plan: 100 users **synced** per role link, out of up to 10,000 stored. Premium: up to 30,000,000, synced and stored. The limit applies per individual role link, not per server. The number of role links shares the server's integration quota: 2 free plus any paid slots assigned to that server.
 
 ### What happens if the user count exceeds the limit?
 
-The API rejects **Add User**, **Replace Users**, or **Commit Upload** requests that would exceed the limit with a `400` error. If the stored count already exceeds the limit (e.g., after a plan downgrade), the bot **stops syncing** the role link entirely until the count is reduced.
+Nothing breaks. Past the **sync** limit the link keeps running — the lowest 100 user IDs get the role and the rest are held until the server upgrades, at which point they activate on their own. Only the **stored** limit rejects a write, with a `400` error on **Add User**, **Replace Users**, or **Commit Upload**.
+
+This is a change from earlier releases, where a single user over the limit stopped the link syncing altogether.
 
 ### How do I upload more than 100,000 users at once?
 

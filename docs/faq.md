@@ -121,8 +121,8 @@ Yes. Use "Add Combined Action" to add some roles AND remove others in one rule.
 ### How quickly do changes happen?
 
 - **Event-driven:** A role change starts evaluation automatically.
-- **Debounce:** Bursty changes are grouped for about 5 seconds on Free and 1.5 seconds on Premium.
-- **Background sync:** A safety sweep catches anything missed in real time — about every 10 minutes on Free and every 2 minutes on Premium. Premium also scans more members per cycle.
+- **Debounce:** Bursty changes are grouped for about 10 seconds on Free and 1.5 seconds on Premium.
+- **Background sync:** A safety sweep catches anything missed in real time — about every 30 minutes on Free and every 2 minutes on Premium. Premium also scans more members per cycle.
 
 ---
 
@@ -202,7 +202,7 @@ Check in order:
 
 Normal delays:
 
-- Role-change debounce: about 5 seconds on Free or 1.5 seconds on Premium
+- Role-change debounce: about 10 seconds on Free or 1.5 seconds on Premium
 - New rule activation: up to 1 hour for full propagation
 
 For longer delays, check [Discord status](https://status.discord.com).

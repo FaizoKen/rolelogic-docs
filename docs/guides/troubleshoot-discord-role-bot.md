@@ -81,8 +81,8 @@ Use [webhook notifications](../features/webhooks-logging) for member role change
 ## 6. Check Processing Timing
 
 Role changes trigger evaluation automatically. Rapid changes are grouped for
-about 5 seconds on Free and 1.5 seconds on Premium. The background safety sweep
-runs about every 10 minutes on Free and every 2 minutes on Premium.
+about 10 seconds on Free and 1.5 seconds on Premium. The background safety sweep
+runs about every 30 minutes on Free and every 2 minutes on Premium.
 
 New or updated rules can take up to one hour to activate through the scheduled path; use the play control to start one immediately.
 

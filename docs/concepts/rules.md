@@ -109,7 +109,7 @@ This creates powerful automation chains.
 
 ### Background Sync
 
-RoleLogic also runs a continuous background scan to catch changes missed by event-driven processing. It runs about every 10 minutes on Free servers and about every 2 minutes on Premium servers, with Premium also scanning large servers far faster per pass. Event-driven rule processing takes about 5 seconds on Free or 1.5 seconds on Premium; the sweep is a safety net.
+RoleLogic also runs a continuous background scan to catch changes missed by event-driven processing. It runs about every 30 minutes on Free servers and about every 2 minutes on Premium servers, with Premium also scanning large servers far faster per pass. Event-driven rule processing takes about 10 seconds on Free or 1.5 seconds on Premium; the sweep is a safety net.
 
 ## Creating a Rule
 

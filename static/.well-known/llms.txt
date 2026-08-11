@@ -21,8 +21,8 @@ Complete plain-text documentation: https://rolelogic.faizo.net/docs/llms-full.tx
 - A rule consists of one primary condition, up to 9 additional AND conditions, and actions that add roles, remove roles, or do both.
 - The 9 condition types are Has Some Roles, Has All Roles, Lacks Some Roles, Lacks All Roles, Exactly N Roles, At Least N Roles, At Most N Roles, More Than N Roles, and Less Than N Roles.
 - Rules can cascade when one rule's action makes another rule match. Processing stops after 100 passes as a safety limit.
-- Role changes trigger evaluation automatically. Bursty changes are grouped for about 5 seconds on Free and 1.5 seconds on Premium.
-- The background safety sweep runs about every 10 minutes on free servers and every 2 minutes on premium servers.
+- Role changes trigger evaluation automatically. Bursty changes are grouped for about 10 seconds on Free and 1.5 seconds on Premium.
+- The background safety sweep runs about every 30 minutes on free servers and every 2 minutes on premium servers.
 - A new or updated rule can take up to 1 hour to activate through scheduled processing; the dashboard play control can start it immediately.
 
 ## Current quotas
@@ -44,7 +44,7 @@ Other limits:
 - 2 action types per rule (add and remove)
 - 250 roles per condition or action
 - 100 cascading evaluation passes
-- 100 users per role link on free; up to 30,000,000 on premium
+- 100 users synced per role link on free (up to 10,000 stored — the overflow is held, not dropped, and activates on upgrade); up to 30,000,000 on premium
 
 ## Discord requirements
 

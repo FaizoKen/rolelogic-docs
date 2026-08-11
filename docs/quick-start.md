@@ -140,7 +140,7 @@ This verifies your rule works without affecting real members.
 Your rule is now active. RoleLogic will:
 
 - **Scan continuously** — checking all members 24/7
-- **React within seconds** — role changes are evaluated in about 5 seconds on Free or 1.5 seconds on Premium
+- **React within seconds** — role changes are evaluated in about 10 seconds on Free or 1.5 seconds on Premium
 
 Use webhook logs to monitor member role changes. The **Activity Log** records edits to rules and other configuration.
 

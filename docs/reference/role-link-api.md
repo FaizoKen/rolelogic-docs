@@ -1396,7 +1396,7 @@ DELETE /api/role-link/:guildId/:roleId/users/:userId
 
 When you modify the user list (Add, Remove, or Replace), RoleLogic automatically notifies the bot to sync role assignments on Discord. Changes typically apply within seconds, provided the user count is within the allowed limit.
 
-If the stored user count exceeds the allowed limit (e.g., after a plan downgrade), the bot **stops syncing** the role link entirely until the count is reduced.
+If the stored user count exceeds the plan's **sync limit** (e.g., after a plan downgrade), the link keeps working: the bot syncs the lowest `sync limit` user IDs and **holds** the rest. Held users are stored, not discarded — they are simply not assigned the role yet, and they activate automatically the moment the server upgrades, with no re-upload. Which users are held is decided by user ID order, so the synced set stays the same between syncs rather than rotating.
 
 If the server has **more role links than its plan's integration slots** (e.g., after a plan downgrade), the newest links beyond the allowance are **paused**: the dashboard shows "Integration paused", the bot stops syncing them, and every User Management API call for them returns a `403` error until the server upgrades or deletes other role links. Pausing is fully reversible — the stored user list is kept, and syncing resumes automatically once the link is back within the slot allowance.
 
@@ -1406,13 +1406,16 @@ If the server has **more role links than its plan's integration slots** (e.g., a
 
 | Resource                              | Free Plan | Premium    |
 | ------------------------------------- | --------- | ---------- |
-| Users per role link                   | 100       | 30,000,000 |
+| Users **synced** per role link        | 100       | 30,000,000 |
+| Users **stored** per role link        | 10,000    | 30,000,000 |
 | Role links per server                 | 2         | Up to 210  |
-| Users per single `PUT /users` request | 100       | 100,000    |
+| Users per single `PUT /users` request | 10,000    | 100,000    |
 | Users per chunk in a chunked upload   | —         | 100,000    |
 | Chunked upload session TTL            | —         | 24 hours   |
 
-- Exceeding the per-role-link user limit on **Add User**, **Replace Users**, or **Commit Upload** returns a `400` error with a message indicating the maximum allowed.
+- **Synced vs. stored.** On the free plan these differ deliberately. Writes are accepted up to the *stored* limit, and the lowest 100 user IDs are the ones actually given the role; the remainder are held (see [Role Sync Behavior](#role-sync-behavior)). Keep sending your full qualifying set — the overflow activates on upgrade without another upload. On premium the two limits are identical, so nothing is ever held.
+- `GET /users` reports the split as `synced_count` and `pending_count`, alongside `synced_limit` (what is acted on) and `user_limit` (what a write may contain).
+- Exceeding the **stored** limit on **Add User**, **Replace Users**, or **Commit Upload** returns a `400` error with a message indicating the maximum allowed. Exceeding only the *sync* limit is not an error.
 - Role links beyond the server's slot count (e.g. after a downgrade) are **paused**: the bot stops syncing them and all User Management API calls for them return a `403` error (see [Role Sync Behavior](#role-sync-behavior)).
 - The error message includes a hint to upgrade if on the free plan.
 - Use the [chunked upload flow](#upload-users-chunked) for any list larger than 100,000 users — a single `PUT /users` with more than 100,000 IDs is rejected.
@@ -1807,11 +1810,13 @@ Yes. Adding a user who already exists returns `added: false` (no error). Removin
 
 ### What is the user limit?
 
-Free plan: 100 users per role link. Premium: up to 30,000,000 users per role link. The user limit applies per individual role link, not per server. The number of role links shares the server's integration quota: 2 free plus any paid slots assigned to that server.
+Free plan: 100 users **synced** per role link, out of up to 10,000 stored. Premium: up to 30,000,000, synced and stored. The limit applies per individual role link, not per server. The number of role links shares the server's integration quota: 2 free plus any paid slots assigned to that server.
 
 ### What happens if the user count exceeds the limit?
 
-The API rejects **Add User**, **Replace Users**, or **Commit Upload** requests that would exceed the limit with a `400` error. If the stored count already exceeds the limit (e.g., after a plan downgrade), the bot **stops syncing** the role link entirely until the count is reduced.
+Nothing breaks. Past the **sync** limit the link keeps running — the lowest 100 user IDs get the role and the rest are held until the server upgrades, at which point they activate on their own. Only the **stored** limit rejects a write, with a `400` error on **Add User**, **Replace Users**, or **Commit Upload**.
+
+This is a change from earlier releases, where a single user over the limit stopped the link syncing altogether.
 
 ### How do I upload more than 100,000 users at once?
 

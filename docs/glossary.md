@@ -158,7 +158,7 @@ Limits on how many rules and resources you can use. Free plans have base quotas;
 
 ### Real-Time Processing
 
-RoleLogic's ability to evaluate and execute rules when member roles change, typically within about 5 seconds on Free or 1.5 seconds on Premium. A background safety sync runs about every 10 minutes on Free and every 2 minutes on Premium to catch missed changes.
+RoleLogic's ability to evaluate and execute rules when member roles change, typically within about 10 seconds on Free or 1.5 seconds on Premium. A background safety sync runs about every 30 minutes on Free and every 2 minutes on Premium to catch missed changes.
 
 ### Role
 
